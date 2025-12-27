@@ -131,3 +131,24 @@
     0%, 100% { opacity: 0.3; transform: scale(1); }
     50% { opacity: 1; transform: scale(1.1); }
 }
+
+@media (max-width: 600px) {
+    .element-icons {
+        gap: 8px; /* Thu hẹp khoảng cách các icon */
+        flex-wrap: wrap; /* Cho phép xuống dòng nếu cần */
+        justify-content: center;
+    }
+
+    .element {
+        width: 30px; /* Thu nhỏ icon nguyên tố */
+        height: 30px;
+    }
+
+    .loader-content {
+        width: 90%; /* Thanh load không bị tràn */
+    }
+
+    .progress-wrapper {
+        width: 100%;
+    }
+}
