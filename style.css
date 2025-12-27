@@ -1,0 +1,669 @@
+/* 1. THÊM VÀO ĐẦU FILE: Khai báo Font và Reset */
+@font-face {
+    font-family: 'Genshin';
+    src: url('genshin.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Genshin', sans-serif;
+    scroll-behavior: smooth;
+    background-color: #000;
+}
+
+/* 2. PHẦN MỞ ĐẦU: Chỉnh chữ sang phải và hiệu ứng Hover */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end; /* Mặc định đẩy phải cho Máy tính */
+  align-items: center;
+  overflow: hidden;
+  padding-right: 12%; /* Khoảng cách lề phải cho máy tính */
+  color: white;
+}
+/* --- HIỆU ỨNG NỀN MỜ --- */
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('imgs/furina-eye.gif'); /* Thay link ảnh của bạn */
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  transform: scale(1.1);
+  z-index: -1;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  max-width: 90%; /* Không cho chữ tràn màn hình điện thoại */
+}
+.title-box {
+  background: rgba(255, 50, 50, 0.25);
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 100, 100, 0.6);
+  display: inline-block;
+}
+/* Tinh chỉnh tiêu đề để co giãn theo màn hình */
+.title-main {
+  font-size: clamp(2.5rem, 8vw, 4rem); /* Tự động nhỏ đi trên điện thoại */
+  color: #fff;
+  font-weight: 700;
+  
+  text-shadow: 0 0 20px rgba(255, 120, 120, 0.9);
+  letter-spacing: 2px;
+}
+/* --- Dòng chữ bên dưới hình chữ nhật --- */
+.subtitle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  gap: 10px;
+  font-family: 'Genshin', sans-serif;
+}
+
+/* Hộp nền hồng sáng cho "khhaanslay" */
+.tag-box {
+  background: #ff69b4; /* hồng sáng */
+  color: #fff;
+  padding: 4px 14px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
+}
+
+/* Dấu gạch giữa */
+.divider {
+  font-size: 1.2rem;
+  color: #fff;
+  opacity: 0.8;
+}
+
+/* Phong cách cho "ngdplowkey!?" */
+.username {
+  color: #fff;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.7),
+    0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 180, 180, 0.3);
+  animation: glowPulse 2s infinite ease-in-out;
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* khoảng cách giữa 2 nút */
+  margin-top: 10px;
+}
+
+/* --- Kiểu cơ bản của nút --- */
+.btn {
+  font-family: "Genshin", sans-serif;
+  font-size: 18px;
+  padding: 10px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* --- Nút đỏ --- */
+.btn-red {
+  background-color: #e63946;
+  color: white;
+  border: none;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: white;
+  border: none;
+  position: relative;
+  box-shadow: inset 0 0 0 3px white; /* viền trắng đổ vào trong */
+  transition: 
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hiệu ứng hover cho nút trong suốt */
+.btn-outline:hover {
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.6), 0 0 15px rgba(255,255,255,0.4);
+  transform: scale(1.08);
+}
+
+
+/* --- Hiệu ứng hover chung --- */
+.btn:hover {
+  transform: scale(1.08);
+  filter: brightness(0.9);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+.btn:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+/* --- ĐIỀU CHỈNH RIÊNG CHO ĐIỆN THOẠI (Mobile) --- */
+@media (max-width: 768px) {
+  .hero {
+    justify-content: center; /* Đưa nội dung vào giữa màn hình điện thoại */
+    padding-right: 0; /* Bỏ khoảng trống lề phải */
+  }
+
+  .hero-content {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .subtitle-row {
+    flex-direction: column; /* Xếp dọc các tag nếu màn hình quá nhỏ */
+    gap: 10px;
+  }
+
+  .divider {
+    display: none; /* Ẩn dấu gạch ngang trên mobile cho gọn */
+  }
+
+  .button-group {
+    flex-direction: column; /* Nút bấm xếp chồng lên nhau */
+    width: 100%;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%; /* Nút bấm rộng hết cỡ cho dễ bấm tay */
+  }
+}
+/* --- PHẦN TRANG NHỎ GIỮA ĐẦU VÀ THÂN --- */
+.mid-info-bar {
+    background: #111; /* Nền tối tách biệt */
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 0;
+    color: white;
+}
+
+.mid-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; /* Tự động xuống dòng trên điện thoại */
+    gap: 20px;
+}
+
+.info-item {
+    text-align: center;
+    min-width: 150px;
+    display: flex;           /* Thêm dòng này */
+    flex-direction: column;  /* Xếp nhãn và giá trị theo hàng dọc */
+    align-items: center;     /* Căn giữa tất cả theo trục dọc */
+}
+
+.info-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #FFD700; /* Màu vàng Genshin */
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+/* Trang trí thêm cho chữ trạng thái */
+.info-value {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* QUAN TRỌNG: Căn giữa nội dung bên trong flex */
+    gap: 8px;
+    font-weight: bold;
+    text-transform: capitalize;
+    width: 100%;            /* Đảm bảo chiếm hết chiều rộng cột */
+}
+
+/* Hiệu ứng phát sáng nhẹ cho chữ khi online */
+.info-value.active {
+    color: #23a55a;
+    text-shadow: 0 0 10px rgba(35, 165, 90, 0.4);
+}
+
+/* Style riêng cho đồng hồ trong thanh này */
+#digital-clock {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: block;
+    color: #fff;
+}
+
+#current-date {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* --- HỖ TRỢ ĐIỆN THOẠI --- */
+@media (max-width: 768px) {
+    .mid-container {
+        flex-direction: column; /* Xếp dọc trên mobile */
+        gap: 25px;
+    }
+    
+    .mid-info-bar {
+        padding: 30px 0;
+    }
+}
+
+/* --- PHẦN CÂU THOẠI CÓ ẢNH NỀN RÕ NÉT --- */
+.quote-section {
+    position: relative;
+    padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    /* Cấu hình hình ảnh nền */
+    background-image: url('imgs/img-PhanCauThoai.jpeg'); /* Thay link ảnh tại đây */
+    background-size: cover;      /* Ảnh phủ kín toàn bộ vùng */
+    background-position: center; /* Ảnh luôn nằm giữa */
+    background-repeat: no-repeat;
+    
+    /* Không dùng filter: blur để ảnh luôn rõ nét */
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Thêm một lớp phủ tối nhẹ (tùy chọn) để chữ trắng dễ đọc hơn trên nền ảnh */
+.quote-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Độ tối 30%, giúp chữ nổi bật hơn */
+    z-index: 1;
+}
+
+.quote-container {
+    position: relative;
+    z-index: 2; /* Đảm bảo chữ nằm trên lớp phủ tối */
+}
+
+.quote-text {
+    font-family: 'Genshin', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8); /* Bóng đổ giúp chữ rõ trên nền ảnh */
+}
+
+/* Tối ưu cho Điện thoại */
+@media (max-width: 768px) {
+    .quote-text {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+    .quote-section {
+        padding: 40px 20px;
+    }
+}
+
+/* --- PHẦN THÂN BÀI MỚI --- */
+.body-section {
+    position: relative;
+    padding: 80px 0;
+    display: flex;
+    justify-content: center;
+    background-image: url('imgs/bg-thanbai.jpeg');
+    background-size: cover;
+}
+
+.body-container {
+    max-width: 1100px;
+    width: 95%;
+    display: flex;
+    gap: 20px;
+    /* Màu hồng pha hồng đậm như hình 1 */
+    background: linear-gradient(135deg, #ff99cc 0%, #ff3399 100%);
+    padding: 25px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(255, 51, 153, 0.4);
+    z-index: 2;
+}
+
+.left-column { flex: 1.2; }
+.right-column { flex: 1; }
+
+.profile-card {
+    background: rgba(0, 0, 0, 0.25); /* Nền tối mờ để nổi bật nội dung */
+    border-radius: 20px;
+    height: 100%;
+    padding-bottom: 25px;
+    overflow: hidden;
+}
+
+/* --- XỬ LÝ AVATAR TO ĐÈ BANNER --- */
+.image-stack {
+    position: relative;
+    height: 180px; 
+    margin-bottom: 65px; /* Tạo khoảng trống cho Avt đè xuống */
+}
+
+.img-rect { 
+    width: 100%;
+    height: 200px;
+    border-radius: 20px 20px 0 0;
+    object-fit: cover;
+    object-position: top;
+}
+
+.avatar-wrapper {
+    position: absolute;
+    bottom: -55px;
+    left: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-circle {
+    width: 148px; /* To giống hình 2 */
+    height: 148px;
+    border-radius: 50%;
+    border: 6px solid rgba(255, 153, 204, 0.8);
+    z-index: 1;
+}
+
+.avatar-decoration {
+    position: absolute;
+    width: 165px; /* Khung trang trí rộng hơn avt */
+    height: 165px;
+    z-index: 2;
+}
+
+/* Chấm trạng thái (Online/Idle) */
+.status-dot {
+    width: 35px; /* Phóng to chấm trạng thái một chút cho hợp với avatar to */
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    border: 6px solid #333;
+    z-index: 3;
+}
+
+/* Định nghĩa màu sắc cho từng trạng thái Discord */
+.status-dot.online { background-color: #43b581; } /* Xanh lá */
+/* 2. IDLE: Mặt trăng vàng trên nền tròn trắng */
+.status-dot.idle {
+    background-color: #ffffff; /* Nền trắng tạo hiệu ứng bo trắng */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23f0b232" d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"/></svg>');
+    background-size: 100%; /* Điều chỉnh độ to nhỏ của mặt trăng bên trong */
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 5px solid #ffffff; 
+}
+/* 3. DND (Do Not Disturb): Biển báo cấm đỏ trên nền tròn trắng */
+.status-dot.dnd {
+    background-color: #c3baba; /* Nền trắng tạo hiệu ứng bo trắng */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle fill="%23f23f43" cx="12" cy="12" r="12"/><rect fill="white" x="5" y="10" width="14" height="4" rx="1"/></svg>');
+    background-size: 85%; /* Thu nhỏ một chút để lộ viền trắng xung quanh */
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 5px solid #c3baba; /* Viền đen ngoài cùng để tách biệt với ảnh đại diện */
+}
+.status-dot.offline{ background-color: #747f8d; } /* Xám (Ngoại tuyến) */
+.discord-info-box { padding: 0 25px; color: white; }
+
+#discord-name { font-size: 1.8rem; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+
+/* Box cho câu status (mê e ấy) */
+.status-quote-box {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.activity-box {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 5px solid #fff;
+    min-height: 80px;
+}
+
+/* Cột bên phải */
+.status-box {
+    background: rgba(255, 255, 255, 0.1);
+    height: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    color: white;
+}
+
+.column-title { border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 20px; }
+
+/* Nền của cột trái */
+.left-column {
+    background: rgba(255, 255, 255, 0.1); /* Màu trắng mờ */
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+/* Kiểu chữ cho thông tin cá nhân */
+.personal-info {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #eee;
+    line-height: 1.6;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 15px;
+}
+
+.profile-link {
+    color: #00aaff;
+    text-decoration: none;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Huy hiệu */
+.badges-row {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.badges-row img {
+    width: 22px;
+    height: 22px;
+}
+
+/* Nút Sửa hồ sơ giả lập */
+.btn-edit {
+    background: #7289da;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#discord-decoration {
+    position: absolute;
+    width: 165px; /* Khung to hơn avt để bao quanh */
+    height: 165px;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+
+    /* Lệnh này giúp xóa bỏ vòng tròn xám mờ ở giữa mà bạn đã thấy */
+    -webkit-mask-image: radial-gradient(circle, transparent 40%, black 45%);
+    mask-image: radial-gradient(circle, transparent 40%, black 45%);
+}
+/* Container tổng của phần kết nối */
+.social-connect {
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+/* Tiêu đề "KẾT NỐI" nhỏ và in hoa giống Discord */
+.section-title {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #b5bac1; /* Màu xám đặc trưng của Discord */
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+/* Từng dòng kết nối (FB, Spotify...) */
+.social-item {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3); /* Nền tối mờ */
+    padding: 8px 12px;
+    border-radius: 8px; /* Bo góc nhẹ cho khung chứa */
+    margin-bottom: 8px;
+    transition: background 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.social-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+/* QUAN TRỌNG: Cấu hình hình ảnh tròn và thu nhỏ */
+.social-item img {
+    width: 24px;         /* Kích thước nhỏ gọn */
+    height: 24px;        /* Chiều cao bằng chiều rộng */
+    border-radius: 50%;  /* Cắt ảnh thành hình tròn tuyệt đối */
+    margin-right: 12px;
+    object-fit: cover;   /* Giữ tỉ lệ ảnh, không bị nén/méo khi thu nhỏ */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Viền mỏng cho ảnh */
+}
+
+/* Chữ bên cạnh icon */
+.social-item span {
+    font-size: 0.85rem;
+    color: #dbdee1;
+    font-weight: 500;
+}
+
+/* 1. Thiết lập khung cố định (Luôn hiển thị như này) */
+#editable-status {
+    outline: none;
+    padding: 15px;      /* Tạo khoảng trống bên trong cho đẹp */
+    border-radius: 12px;
+    min-height: 120px;  /* Chiều cao tối thiểu để không bị lép */
+    transition: all 0.3s ease; /* Làm mọi chuyển động trở nên mượt mà */
+    border: 1px solid transparent; /* Chuẩn bị sẵn viền ẩn */
+    color: #ffffff;
+    line-height: 1.5;
+}
+
+/* 2. Hiệu ứng CHỈ dành cho Admin khi rê chuột vào */
+#editable-status[contenteditable="true"]:hover {
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px dashed rgba(255, 255, 255, 0.2); /* Viền đứt nét báo hiệu có thể sửa */
+    cursor: text;
+}
+
+/* 3. Hiệu ứng khi đang gõ chữ (Focus) */
+#editable-status[contenteditable="true"]:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(88, 101, 242, 0.5); /* Viền màu xanh Discord nhẹ */
+    box-shadow: 0 0 10px rgba(88, 101, 242, 0.2);
+}
+
+#editable-status:focus {
+    background: rgba(255, 255, 255, 0.05); /* Hiện nền nhẹ khi đang gõ */
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* Cách gọi icon nhanh như bạn muốn (giả sử bạn gõ code icon) */
+#editable-status img {
+    width: 1.2em;
+    vertical-align: middle;
+}
+/* Khi có quyền sửa (Admin) */
+/* 4. PHẦN KẾT VÀ COMING SOON */
+.footer-section { background: #444; color: white; text-align: center; padding: 60px 0; border-top: 4px solid black; }
+.social-links a { color: #FFD700; margin: 0 15px; text-decoration: none; font-weight: bold; }
+
+.coming-soon { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f9f9f9; border-top: 4px solid black; }
+.coming-soon h1 { font-size: 4rem; color: #333; }
+
+/*Phần Hiệu Ứng Cho Mở Đầu*/
+.text-glow:hover {
+  transform: scale(1.05);
+  text-shadow:
+    0 0 12px rgba(255, 255, 255, 0.8),
+    0 0 25px rgba(255, 150, 150, 0.6),
+    0 0 60px rgba(255, 100, 100, 0.5);
+}
+.text-glow {
+  color: #fff;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.7),
+    0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 180, 180, 0.3);
+  transition: text-shadow 0.3s ease, transform 0.3s ease;
+}
+.text-glow-gold {
+  color: #ffd700 !important;
+  text-shadow:
+    0 0 8px rgba(255, 215, 0, 0.8),
+    0 0 20px rgba(255, 235, 120, 0.6),
+    0 0 40px rgba(255, 255, 180, 0.4);
+  transition: text-shadow 0.4s ease, transform 0.3s ease;
+  animation: goldenPulse 3s ease-in-out infinite;
+}
+
+.text-glow-gold:hover {
+  transform: scale(1.05);
+  text-shadow:
+    0 0 14px rgba(255, 255, 180, 0.9),
+    0 0 28px rgba(255, 255, 200, 0.7),
+    0 0 60px rgba(255, 255, 220, 0.5);
+}
+@keyframes goldenPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 8px rgba(255, 215, 0, 0.8),
+      0 0 20px rgba(255, 235, 120, 0.6),
+      0 0 40px rgba(255, 255, 180, 0.4);
+  }
+  50% {
+    text-shadow:
+      0 0 16px rgba(255, 255, 180, 1),
+      0 0 30px rgba(255, 255, 200, 0.8),
+      0 0 60px rgba(255, 255, 220, 0.6);
+  }
+}
+
+
+

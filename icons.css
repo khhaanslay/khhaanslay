@@ -1,0 +1,9 @@
+.icon-mini {
+    display: inline-block;
+    width: 1.2em;  /* Tự động to theo kích thước chữ (em) */
+    height: 1.2em;
+    vertical-align: middle; /* Căn giữa dòng với chữ */
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 0 2px;
+}
