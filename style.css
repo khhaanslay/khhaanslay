@@ -543,14 +543,14 @@ body {
 /* Cột bên phải */
 /* Fix lỗi tràn nội dung bên trong cột phải */
 .status-box {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15); /* Làm nó sáng hơn một chút */
     height: 100%;
     padding: 30px;
     border-radius: 20px;
     color: white;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* Cắt bỏ phần dư thừa */
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .column-title { border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 20px; }
@@ -742,10 +742,11 @@ body {
       /* Fix lỗi tràn chữ trong hộp Trạng Thái */
     .status-box {
         width: 100%;
-        background: #111214;
+        background: rgba(255, 255, 255, 0.15);;
         border-radius: 8px;
         padding: 20px;
         box-sizing: border-box;
+        border: 1px solid rgba(255, 255, 255, 0.2);
       }
     .status-content {
         word-wrap: break-word; /* Ép xuống dòng nếu chữ quá dài */
