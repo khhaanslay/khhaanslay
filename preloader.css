@@ -3,15 +3,15 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw; /* Sử dụng vw để chắc chắn chiếm hết chiều ngang */
+    width: 100vw; /* Chiếm trọn chiều ngang màn hình */
     height: 100vh;
-    background-color: #000;
+    background: #000;
+    z-index: 99999;
     display: flex;
-    flex-direction: column; /* Xếp theo cột dọc */
     justify-content: center;
     align-items: center;
-    z-index: 10000;
-    overflow: hidden; /* Ngăn tình trạng xuất hiện thanh cuộn ngang */
+    margin: 0;
+    padding: 0;
 }
 
 /* Nội dung bên trong */
