@@ -442,12 +442,90 @@ body {
     font-style: italic;
 }
 
-.activity-box {
-    background: rgba(0, 0, 0, 0.4);
+/* Layout Container cho Hoạt động */
+.activity-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #b5bac1;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.activity-content {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Xử lý ảnh chồng nhau (Large & Small Assets) */
+.activity-image-wrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+}
+
+.activity-large-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.spotify-art {
+    border-radius: 4px; /* Spotify thường dùng ảnh vuông hoặc bo nhẹ */
+}
+
+.activity-small-img {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 3px solid #111; /* Tạo viền bao quanh ảnh nhỏ */
+}
+
+/* Phần chữ chi tiết */
+.activity-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.game-name {
+    color: #ffffff;
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.game-detail, .game-state {
+    color: #dbdee1;
+    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.no-activity {
+    text-align: center;
     padding: 20px;
-    border-radius: 15px;
-    border-left: 5px solid #fff;
-    min-height: 80px;
+    color: #80848e;
+    font-size: 14px;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
 }
 
 /* Cột bên phải */

@@ -6,8 +6,29 @@
     <title>khhaanslay</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="icons.css">
+    <link rel="stylesheet" href="preloader.css">
 </head>
 <body>
+
+    <div id="genshin-loader">
+        <div class="loader-content">
+            <div class="element-icons">
+                <div class="element-icons">
+                    <span class="element anemo"></span>
+                    <span class="element pyro"></span>
+                    <span class="element hydro"></span>
+                    <span class="element cryo"></span>
+                    <span class="element electro"></span>
+                    <span class="element geo"></span>
+                    <span class="element dendro"></span>
+                </div>
+            </div>
+            <div class="progress-wrapper">
+                <div class="progress-bar" id="load-bar"></div>
+            </div>
+            <div class="loading-text">Loading... <span id="percent">0</span>%</div>
+        </div>
+    </div>
 
    <section class="hero">
     <div class="hero-background"></div>
@@ -92,8 +113,7 @@
         <div class="social-item"><img src="imgs/Spotify.png"> _Pekora_</div>
     </div>
     
-    <div id="discord-activity" class="activity-box">
-        </div>
+    <div id="discord-activity"></div>
 </div>
             </div>
         </div>
@@ -101,7 +121,7 @@
         <div class="right-column">
             <div class="status-box">
                 <h2 class="column-title">Trạng Thái</h2>
-                <div class="status-content" id="editable-status" contenteditable="true">
+                <div class="status-content" id="editable-status" contenteditable="false">
                     ✨ Nhấp vào đây để thay đổi trạng thái của bạn...
                 </div>
             </div>
@@ -124,5 +144,6 @@
 <script src="script.js"></script>
 <script src="admin.js"></script>
 <script src="icons.js"></script>
+<script src="preloader.js"></script>
 </body>
 </html>

@@ -4,168 +4,123 @@ async function updateDiscordStatus() {
     try {
         const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
         const data = await response.json();
-        
         if (!data.success) return;
-        // Tìm đoạn cập nhật Avatar trong script.js và thay bằng đoạn này:
+
         const user = data.data;
+
+        // 1. Cập nhật Avatar & Decoration (Khung)
         const decoImg = document.getElementById('discord-decoration');
-
-        // 1. Lấy Avatar
         document.getElementById('discord-avatar').src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.discord_user.avatar}.png?size=256`;
-
-        // 2. Lấy Trang trí (Khung) - Cập nhật đúng đường dẫn
         if (user.discord_user.avatar_decoration_data) {
-            const assetId = user.discord_user.avatar_decoration_data.asset;
-            
-            // Sử dụng link CDN chuẩn của Discord cho Decoration
-            decoImg.src = `https://cdn.discordapp.com/avatar-decoration-presets/${assetId}`;
+            decoImg.src = `https://cdn.discordapp.com/avatar-decoration-presets/${user.discord_user.avatar_decoration_data.asset}`;
             decoImg.style.display = "block";
         } else {
             decoImg.style.display = "none";
         }
 
-        // 2. CẬP NHẬT BANNER (Dữ liệu của bạn không có banner Nitro, dùng ảnh dự phòng)
+        // 2. Cập nhật Banner
         const bannerImg = document.getElementById('discord-banner');
         if (user.discord_user.banner) {
             const ext = user.discord_user.banner.startsWith("a_") ? "gif" : "png";
             bannerImg.src = `https://cdn.discordapp.com/banners/${DISCORD_ID}/${user.discord_user.banner}.${ext}?size=1024`;
-        } else {
-            bannerImg.src = "imgs/anhduphong-banner.jpeg"; 
         }
 
-        // 3. CẬP NHẬT TÊN VÀ TRẠNG THÁI CHẤM TRÒN
+        // 3. Cập nhật Tên & Chấm trạng thái
         document.getElementById('discord-name').innerText = user.discord_user.username;
         const statusDot = document.getElementById('discord-status-dot');
         statusDot.className = `status-dot ${user.discord_status}`;
 
-        // 4. CẬP NHẬT TRẠNG THÁI TÙY CHỈNH (Ví dụ: "mê e ấy")
+        // 4. Cập nhật Trạng thái tùy chỉnh (mê e ấy)
         const customStatus = user.activities.find(a => a.type === 4);
-        const statusText = document.getElementById('discord-status-text');
+        const statusDisplay = document.getElementById('discord-status-text');
         if (customStatus) {
-            // Hiển thị emoji nếu có + text trạng thái
             const emojiHtml = customStatus.emoji ? `<img src="https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.png" style="width:20px; vertical-align:middle;"> ` : "";
-            statusText.innerHTML = `${emojiHtml}${customStatus.state}`;
-        } else {
-            statusText.innerText = "Chưa thiết lập trạng thái";
+            statusDisplay.innerHTML = `${emojiHtml}${customStatus.state || ""}`;
         }
 
-        // 5. CẬP NHẬT HOẠT ĐỘNG (Ví dụ: Đang chơi Genshin Impact)
+        // 5. Cập nhật Hoạt động (Game / Spotify)
         const activityBox = document.getElementById('discord-activity');
-        // Tìm hoạt động không phải là Status (type 0 là Playing)
         const playingGame = user.activities.find(a => a.type === 0);
 
         if (playingGame) {
+            // Xử lý logic lấy ảnh từ Discord Assets
+            const largeImgId = playingGame.assets?.large_image;
+            const smallImgId = playingGame.assets?.small_image;
+            
+            const largeImgUrl = largeImgId ? (largeImgId.startsWith("mp:external") 
+                ? largeImgId.replace(/mp:external\/.*\/https\//, "https://") 
+                : `https://cdn.discordapp.com/app-assets/${playingGame.application_id}/${largeImgId}.png`) : "imgs/default-game.png";
+
             activityBox.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="https://cdn.discordapp.com/app-assets/${playingGame.application_id}/${playingGame.assets.large_image}.png" 
-                         style="width: 50px; border-radius: 8px;">
-                    <div>
-                        <strong style="display:block; color:#fff;">${playingGame.name}</strong>
-                        <span style="font-size: 0.85rem; color: #ddd;">${playingGame.details || ""}</span><br>
-                        <span style="font-size: 0.85rem; color: #ddd;">${playingGame.state || ""}</span>
+                <div class="activity-container">
+                    <p class="activity-title">ĐANG CHƠI MỘT TRÒ CHƠI</p>
+                    <div class="activity-content">
+                        <div class="activity-image-wrapper">
+                            <img src="${largeImgUrl}" class="activity-large-img">
+                            ${smallImgId ? `<img src="https://cdn.discordapp.com/app-assets/${playingGame.application_id}/${smallImgId}.png" class="activity-small-img">` : ""}
+                        </div>
+                        <div class="activity-details">
+                            <strong class="game-name">${playingGame.name}</strong>
+                            <span class="game-detail">${playingGame.details || ""}</span>
+                            <span class="game-state">${playingGame.state || ""}</span>
+                        </div>
                     </div>
-                </div>
-            `;
+                </div>`;
         } else if (user.listening_to_spotify) {
-            activityBox.innerHTML = `🎵 Đang nghe <strong>${user.spotify.song}</strong>`;
+            activityBox.innerHTML = `
+                <div class="activity-container">
+                    <p class="activity-title">ĐANG NGHE SPOTIFY</p>
+                    <div class="activity-content">
+                        <div class="activity-image-wrapper">
+                            <img src="${user.spotify.album_art_url}" class="activity-large-img spotify-art">
+                        </div>
+                        <div class="activity-details">
+                            <strong class="game-name">${user.spotify.track}</strong>
+                            <span class="game-detail">bởi ${user.spotify.artist}</span>
+                            <span class="game-state">trên ${user.spotify.album}</span>
+                        </div>
+                    </div>
+                </div>`;
         } else {
-            activityBox.innerHTML = "<p>Hiện không hoạt động</p>";
+            activityBox.innerHTML = `
+                <div class="no-activity">
+                    <p>Hiện không có hoạt động nào</p>
+                </div>`;
         }
-        // --- CẬP NHẬT TRẠNG THÁI Ở THANH MID-INFO-BAR ---
+
+        // 6. Cập nhật Thanh Status giữa (Mid-Info Bar)
         const midStatusText = document.getElementById('lanyard-status-text');
         if (midStatusText) {
-            const statusMap = {
-                'online': 'Online',
-                'idle': 'Idle',
-                'dnd': 'Do Not Disturb',
-                'offline': 'Offline'
-            };
-            
-            const currentStatus = user.discord_status;
-            midStatusText.innerText = statusMap[currentStatus] || 'Offline';
-            
-            // Xóa màu cũ và class active cũ
+            const statusMap = {'online': 'Online', 'idle': 'Idle', 'dnd': 'Do Not Disturb', 'offline': 'Offline'};
+            midStatusText.innerText = statusMap[user.discord_status] || 'Offline';
             midStatusText.classList.remove('active');
             midStatusText.style.color = "";
-
-            // Cập nhật màu sắc theo trạng thái thực tế
-            if (currentStatus === 'online') {
-                midStatusText.classList.add('active'); // Dùng màu xanh lá từ CSS của bạn
-            } else if (currentStatus === 'dnd') {
-                midStatusText.style.color = '#f23f43'; // Màu đỏ
-            } else if (currentStatus === 'idle') {
-                midStatusText.style.color = '#f0b232'; // Màu vàng
-            } else {
-                midStatusText.style.color = '#80848e'; // Màu xám
-            }
+            if (user.discord_status === 'online') midStatusText.classList.add('active');
+            else midStatusText.style.color = (user.discord_status === 'dnd') ? '#f23f43' : (user.discord_status === 'idle') ? '#f0b232' : '#80848e';
         }
 
     } catch (error) {
-        console.error("Lỗi cập nhật Lanyard:", error);
+        console.error("Lanyard Error:", error);
     }
 }
 
-// Cập nhật mỗi 30 giây để tránh spam API
-setInterval(updateDiscordStatus, 30000);
-updateDiscordStatus();
-
+// Hàm cập nhật đồng hồ
 function updateMidClock() {
     const now = new Date();
-    
-    // Cập nhật giờ
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('digital-clock').innerText = `${h}:${m}:${s}`;
-    
-    // Cập nhật ngày
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
-    document.getElementById('current-date').innerText = now.toLocaleDateString('en-US', options);
+    document.getElementById('digital-clock').innerText = now.toLocaleTimeString('vi-VN', { hour12: false });
+    document.getElementById('current-date').innerText = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
-// Chạy mỗi giây
-setInterval(updateMidClock, 1000);
-updateMidClock();
+// Khởi chạy khi tải trang
+document.addEventListener('DOMContentLoaded', () => {
+    updateDiscordStatus();
+    setInterval(updateDiscordStatus, 30000);
+    updateMidClock();
+    setInterval(updateMidClock, 1000);
 
-// Hiệu ứng hiện câu thoại khi cuộn trang
-const quote = document.querySelector('.quote-text');
-
-window.addEventListener('scroll', () => {
-    const position = quote.getBoundingClientRect().top;
-    const screenPosition = window.innerHeight / 1.3;
-
-    if (position < screenPosition) {
-        quote.style.opacity = '1';
-        quote.style.transform = 'translateY(0)';
-    }
+    // Xử lý Status có thể sửa (LocalStorage)
+    const statusArea = document.getElementById('editable-status');
+    const saved = localStorage.getItem('userStatus');
+    if (saved) statusArea.innerHTML = saved;
+    statusArea.addEventListener('input', () => localStorage.setItem('userStatus', statusArea.innerHTML));
 });
-
-// Bạn cần thêm CSS này vào .quote-text để JS hoạt động:
-// opacity: 0; transform: translateY(20px); transition: all 1s ease;
-
-const statusArea = document.getElementById('editable-status');
-
-// 1. Khi load trang: Lấy dữ liệu đã lưu từ LocalStorage
-const savedStatus = localStorage.getItem('userStatus');
-if (savedStatus) {
-    statusArea.innerHTML = savedStatus;
-}
-
-// 2. Khi gõ chữ: Lưu trực tiếp vào LocalStorage
-statusArea.addEventListener('input', () => {
-    localStorage.setItem('userStatus', statusArea.innerHTML);
-});
-
-// Giả sử "data" là biến chứa dữ liệu trả về từ Lanyard
-const statusText = document.getElementById('lanyard-status-text');
-const status = data.discord_status; // Lấy trạng thái: online, idle, dnd, hoặc offline
-
-// 1. Cập nhật nội dung chữ
-const statusMap = {
-    'online': 'Online',
-    'idle': 'Idle',
-    'dnd': 'Do Not Disturb',
-    'offline': 'Offline'
-};
-statusText.innerText = statusMap[status] || 'Offline';
-
