@@ -1,139 +1,38 @@
-/* Màn hình nền đen bao phủ toàn trang */
 #genshin-loader {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw; /* Sử dụng vw để chắc chắn chiếm hết chiều ngang */
-    height: 100vh;
-    background-color: #000;
-    display: flex;
-    flex-direction: column; /* Xếp theo cột dọc */
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    overflow: hidden; /* Ngăn tình trạng xuất hiện thanh cuộn ngang */
+    inset: 0;
+    z-index: 100000;
+    background: #000;
+    transition: opacity 1s ease;
 }
 
-/* Nội dung bên trong */
-.loader-content {
+#loader-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.6);
+}
+
+.element-fixed-container {
+    position: absolute; /* Vị trí sẽ được JS ghi đè: top/bottom/left/right */
+    width: 65px;
+    height: 65px;
+    display: block !important;
+}
+
+#element-display {
     width: 100%;
-    max-width: 400px; /* Giới hạn độ rộng tối đa */
-    padding: 0 20px; /* Khoảng cách lề 2 bên cho điện thoại */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Container chứa các icon nguyên tố */
-.element-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap; /* Giữ các icon trên cùng 1 hàng */
-    gap: 15px; 
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.element {
-    width: 45px;
-    height: 45px;
-    display: inline-block;
-    background-size: contain;
+    height: 100%;
+    background-size: contain; /* Đảm bảo icon hiện trọn vẹn */
     background-repeat: no-repeat;
     background-position: center;
-    
-    /* Trạng thái ban đầu: Mờ và Xám */
-    filter: grayscale(1) brightness(0.5);
-    opacity: 0.3;
-    transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
-}
-/* Class 'active' này sẽ được JS thêm vào khi thanh trượt quét qua */
-.element.active {
-    filter: grayscale(0) brightness(1.2) drop-shadow(0 0 15px #fff);
-    opacity: 1;
-    transform: scale(1.1);
-}
-/* Đổ hình ảnh vào từng class qua CSS */
-.anemo { background-image: url('imgs/Anemo.png'); }
-.pyro  { background-image: url('imgs/Pyro.png'); }
-.hydro { background-image: url('imgs/Hydro.png'); }
-.cryo  { background-image: url('imgs/Cryo.png'); }
-.electro { background-image: url('imgs/Electro.png'); }
-.geo   { background-image: url('imgs/Geo.png'); }
-.dendro { background-image: url('imgs/Dendro.png'); }
-
-/* Chỉnh delay để các nguyên tố sáng lần lượt từ trái sang phải */
-.element:nth-child(1) { animation-delay: 0.0s; }
-.element:nth-child(2) { animation-delay: 0.2s; }
-.element:nth-child(3) { animation-delay: 0.4s; }
-.element:nth-child(4) { animation-delay: 0.6s; }
-.element:nth-child(5) { animation-delay: 0.8s; }
-.element:nth-child(6) { animation-delay: 1.0s; }
-.element:nth-child(7) { animation-delay: 1.2s; }
-
-/* Thanh Progress */
-.progress-wrapper {
-    width: 100%; /* Chiếm hết chiều ngang của .loader-content */
-    height: 3px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    position: relative;
-}
-
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #fff;
-    box-shadow: 0 0 20px #fff, 0 0 10px #fff;
-    position: relative;
-}
-
-/* Đầu của thanh trượt có một điểm sáng mạnh */
-.progress-bar::after {
-    content: '';
-    position: absolute;
-    right: -5px;
-    top: -5px;
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 25px 5px #fff;
-}
-
-.loading-text {
-    color: #ede5d8;
-    margin-top: 15px;
-    font-size: 0.85rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-family: 'Genshin', sans-serif;
-}
-
-/* Hiệu ứng khi biến mất */
-#genshin-loader.fade-out {
     opacity: 0;
-    visibility: hidden;
+    transform: scale(0.7);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
-@media (max-width: 600px) {
-    .element-icons {
-        gap: 8px; /* Thu hẹp khoảng cách các icon */
-        flex-wrap: wrap; /* Cho phép xuống dòng nếu cần */
-        justify-content: center;
-    }
-
-    .element {
-        width: 30px; /* Thu nhỏ icon nguyên tố */
-        height: 30px;
-    }
-
-    .loader-content {
-        width: 90%; /* Thanh load không bị tràn */
-    }
-
-    .progress-wrapper {
-        width: 100%;
-    }
+#element-display.active {
+    opacity: 1;
+    transform: scale(1);
 }

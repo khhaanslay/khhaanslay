@@ -832,6 +832,92 @@ body {
     0 0 60px rgba(255, 255, 220, 0.5);
 }
 
+.story-section {
+    padding: 80px 0;
+    background: url('imgs/background-story.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 120vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 90%;
+    max-width: 1100px;
+}
+
+.story-card {
+    background: rgba(255, 255, 255, 0.95);
+    color: #222;
+    padding: 40px;
+    border-radius: 15px;
+    cursor: pointer;
+    overflow: hidden;
+    /* Thiết lập chiều ngang ban đầu hẹp */
+    width: 300px; 
+    min-height: 120px;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+/* Hiệu ứng Phóng to nhẹ và Hào quang khi di chuột */
+.story-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
+    z-index: 10;
+}
+
+/* Các kiểu mở rộng khác nhau */
+.left-to-right { align-self: flex-start; transform-origin: left; }
+.center-expand { align-self: center; transform-origin: center; }
+.right-to-left { align-self: flex-end; transform-origin: right; }
+
+/* Khi thẻ được mở rộng */
+.story-card.expanded {
+    width: 100%; /* Chiếm trọn chiều ngang container */
+    cursor: default;
+    transform: scale(1);
+}
+
+.story-title {
+    font-family: 'Genshin', sans-serif;
+    font-size: 2rem;
+    white-space: nowrap; /* Giữ tiêu đề không bị xuống dòng khi hẹp */
+}
+
+.story-title b {
+    font-size: 3rem;
+    color: #ff3399;
+}
+
+.story-content {
+    opacity: 0;
+    margin-top: 20px;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.story-card.expanded .story-content {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Hiệu ứng hiện dần khi cuộn tới */
+.scroll-reveal {
+    opacity: 0;
+    filter: blur(10px);
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    filter: blur(0);
+}
+
 
 
 

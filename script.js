@@ -124,3 +124,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saved) statusArea.innerHTML = saved;
     statusArea.addEventListener('input', () => localStorage.setItem('userStatus', statusArea.innerHTML));
 });
+
+function expandCard(card) {
+    // Nếu thẻ đã mở thì đóng lại, nếu chưa thì mở và đóng các thẻ khác
+    const isExpanded = card.classList.contains('expanded');
+    
+    document.querySelectorAll('.story-card').forEach(c => {
+        c.classList.remove('expanded');
+    });
+
+    if (!isExpanded) {
+        card.classList.add('expanded');
+    }
+}
+
+// Hiệu ứng Scroll Reveal (Hiện ra khi cuộn màn hình tới)
+const observerOptions = { threshold: 0.3 };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));

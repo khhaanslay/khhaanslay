@@ -12,22 +12,9 @@
 <body>
 
     <div id="genshin-loader">
-        <div class="loader-content">
-            <div class="element-icons">
-                <div class="element-icons">
-                    <span class="element anemo"></span>
-                    <span class="element pyro"></span>
-                    <span class="element hydro"></span>
-                    <span class="element cryo"></span>
-                    <span class="element electro"></span>
-                    <span class="element geo"></span>
-                    <span class="element dendro"></span>
-                </div>
-            </div>
-            <div class="progress-wrapper">
-                <div class="progress-bar" id="load-bar"></div>
-            </div>
-            <div class="loading-text">Loading... <span id="percent">0</span>%</div>
+        <div id="loader-bg"></div> 
+            <div class="element-fixed-container">
+            <div id="element-display" class="element-fixed"></div>
         </div>
     </div>
 
@@ -105,7 +92,6 @@
         <p><strong>Birthday🎂:</strong> 25/04/....</p>
         <p><strong>NCV:</strong> Hanzxl | Nemo</p>
         <p><strong>Location:</strong> Quy Nhơn, Bình Định</p>
-        <br><a href="https://khhaanslay.github.io/My-Profile/" class="profile-link">https://khhaanslay.github.io/My-Profile/</a><br>
     </div>
     <div class="social-connect">
         <p>Kết Nối</p>
@@ -128,6 +114,32 @@
         </div>
     </div>
 </main>
+<section class="story-section">
+    <div class="story-container">
+        <div class="story-card scroll-reveal left-to-right" onclick="expandCard(this)">
+            <h2 class="story-title"><u><b>C</b>uộc Sống</u></h2>
+            <div class="story-content">
+                <p>Tớ là khhaanslay, tên thật Khánh Hân, sinh năm 2007. Hiện tại, tớ đang là sinh viên đại học ngành Công nghệ Thông tin, theo định hướng lập trình ứng dụng — một lĩnh vực đòi hỏi sự tập trung, tư duy logic và khả năng học hỏi liên tục.</p>
+                <p>Tớ đang sinh sống tại Quy Nhơn — trước đây thuộc Bình Định, và sau khi sáp nhập là phường Quy Nhơn Bắc, tỉnh Gia Lai. Đây là nơi gắn với nhịp sống quen thuộc và những khoảng thời gian khá yên bình trong cuộc sống hằng ngày của tớ.</p>
+                <p>Ngoài việc học, tớ có những sở thích mang tính cá nhân. Tớ thích chụp ảnh để lưu lại những khoảnh khắc đời thường, xem phim và đọc truyện như một cách thư giãn và quan sát thế giới theo nhiều góc nhìn khác nhau. Những lúc rảnh, tớ cũng có thói quen ăn vặt, đơn giản để tạo cho mình một khoảng nghỉ nhỏ.</p>
+            </div>
+        </div>
+
+        <div class="story-card scroll-reveal center-expand" onclick="expandCard(this)">
+            <h2 class="story-title"><u><b>M</b>ục Tiêu</u></h2>
+            <div class="story-content">
+                <p>Trở thành một lập trình viên Fullstack chuyên nghiệp, xây dựng những ứng dụng có ích cho cộng đồng và không ngừng thử thách bản thân với những công nghệ mới.</p>
+            </div>
+        </div>
+
+        <div class="story-card scroll-reveal right-to-left" onclick="expandCard(this)">
+            <h2 class="story-title"><u><b>C</b>ảm Hứng</u></h2>
+            <div class="story-content">
+                <p>Luôn tin rằng: "Cách duy nhất để làm nên những điều vĩ đại là yêu lấy những gì bạn đang làm." Sự kiên trì là chìa khóa của mọi thành công.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
     <footer class="footer-section">
         <h3>Liên Hệ</h3>
