@@ -716,80 +716,59 @@ body {
 }
 /* Khi có quyền sửa (Admin) */
 
-/* --- RESPONSIVE CHO ĐIỆN THOẠI --- */
-@media (max-width: 768px) {
-    /* Thay đổi từ hàng ngang sang hàng dọc cho thân bài */
-    .body-container {
-        flex-direction: column; 
-        padding: 15px;
-        width: 98%;
-    }
-
-    .left-column, .right-column {
-        width: 100% !important;
-        min-width: 0; /* Giải phóng giới hạn chiều rộng */
-        flex: none;
-    }
-
-    /* Đảm bảo Card Discord không bị phình */
-    .profile-card {
-        width: 100%;
-    }
-
-    /* Thu nhỏ Avatar trên mobile để cân đối */
-    .img-circle {
-        width: 100px;
-        height: 100px;
-    }
-    .avatar-decoration {
-        width: 115px;
-        height: 115px;
-    }
-    .image-stack {
-        height: 140px;
-        margin-bottom: 40px;
-    }
-}
-      /* Fix lỗi tràn chữ trong hộp Trạng Thái */
-    .status-box {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.15);;
-        border-radius: 8px;
-        padding: 20px;
-        box-sizing: border-box;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-    .status-content {
-        word-wrap: break-word; /* Ép xuống dòng nếu chữ quá dài */
-        overflow-wrap: break-word;
-        white-space: normal;
-        color: #dbdee1;
-      }
-
-    /* 4. Điều chỉnh Card Discord */
-    .profile-card {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .banner-img {
-        height: 120px; /* Thu thấp banner */
-    }
-
-    .avatar-container {
-        left: 20px; /* Căn lại avatar */
-    }
-
-    /* 5. Điều chỉnh Hoạt động (Activity) */
-    .activity-content {
-        flex-direction: column; /* Ảnh trên chữ dưới */
+/* --- SỬA LỖI DISCORD TRÊN ĐIỆN THOẠI --- */
+@media (max-width: 767px) {
+    /* 1. Khung chứa chính của Discord */
+    .discord-profile-container {
+        width: 90% !important;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Căn giữa tất cả thành phần */
         text-align: center;
     }
 
-    .activity-image-wrapper {
-        margin: 0 auto;
+    /* 2. Sửa lỗi Avatar và Trang trí (Decor) */
+    .discord-avatar-wrapper {
+        position: relative;
+        width: 100px !important; /* Thu nhỏ avatar trên mobile */
+        height: 100px !important;
+        margin-bottom: 15px;
     }
 
+    .discord-avatar {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    /* Trang trí (Decoration) bám sát theo Avatar */
+    .discord-decoration {
+        position: absolute;
+        top: -10%; /* Căn chỉnh lại vị trí viền trang trí */
+        left: -10%;
+        width: 120% !important; /* To hơn avatar một chút để bao quanh */
+        height: 120% !important;
+        pointer-events: none;
+    }
+
+    /* 3. Sửa lỗi Tên (Username) */
+    .discord-name {
+        font-size: 1.2rem !important; /* Giảm cỡ chữ để không bị tràn dòng */
+        word-break: break-word; /* Nếu tên quá dài thì tự xuống dòng */
+        width: 100%;
+        margin-top: 10px;
+        color: #fff;
+    }
+
+    /* 4. Banner Discord (nếu có) */
+    .discord-banner {
+        height: 120px !important; /* Giảm chiều cao banner */
+        width: 100% !important;
+        border-radius: 15px 15px 0 0;
+    }
+}
 
 /* 4. PHẦN KẾT VÀ COMING SOON */
 .footer-section { background: #444; color: white; text-align: center; padding: 60px 0; border-top: 4px solid black; }
@@ -832,90 +811,228 @@ body {
     0 0 60px rgba(255, 255, 220, 0.5);
 }
 
-.story-section {
-    padding: 80px 0;
-    background: url('imgs/background-story.jpg') no-repeat center center fixed;
+/* --- PHẦN ABOUT ME - ĐÃ SỬA LỖI HIỂN THỊ --- */
+.about-section {
+    position: relative;
+    padding: 80px 20px;
+    background: url('imgs/aboutme-bg.jpeg') no-repeat center center fixed;
     background-size: cover;
-    min-height: 120vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 100vh;
+    z-index: 1;
+    display: block !important;
 }
 
-.story-container {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    width: 90%;
-    max-width: 1100px;
+.about-container {
+    position: relative;
+    z-index: 5;
+    max-width: 1200px;
+    margin: 0 auto;
+    opacity: 80%;
 }
 
-.story-card {
+/* Lớp phủ tối để hiện chữ rõ hơn */
+.about-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+/* Ô About Me nhỏ gọn, bo góc dịu nhẹ */
+.about-header-box {
+    background: #fff;
+    width: fit-content;
+    margin: 0 auto 40px;
+    padding: 10px 40px;
+    border-radius: 50px; /* Tạo vòng cung trái phải */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.about-header-box h1 {
+    font-family: 'Genshin', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 5px;
+    color: #333;
+}
+
+.about-flex-wrapper {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 450px;
+}
+
+.about-card {
+    flex: 1;
     background: rgba(255, 255, 255, 0.95);
-    color: #222;
-    padding: 40px;
-    border-radius: 15px;
+    border-radius: 25px; /* Bo góc dịu nhẹ */
+    padding: 35px;
     cursor: pointer;
     overflow: hidden;
-    /* Thiết lập chiều ngang ban đầu hẹp */
-    width: 300px; 
-    min-height: 120px;
-    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    opacity: 80%;
 }
 
-/* Hiệu ứng Phóng to nhẹ và Hào quang khi di chuột */
-.story-card:hover {
+.about-header-box:hover {
+    transform: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Giữ nguyên bóng đổ cũ */
+}
+
+.about-card:not(.about-header-box):hover {
+    transform: translateY(-10px) scale(1.03); /* Nhích lên 10px và to thêm 3% */
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+    background: #ffffff; /* Làm nền trắng rõ hơn khi hover */
+    z-index: 10; /* Đảm bảo ô đang chọn nổi lên trên các ô bên cạnh */
+}
+
+/* Di chuột phóng to nhẹ và Hào quang */
+.about-card:hover {
     transform: scale(1.03);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
-    z-index: 10;
+    box-shadow: 0 0 35px rgba(255, 255, 255, 0.8);
+    z-index: 5;
 }
 
-/* Các kiểu mở rộng khác nhau */
-.left-to-right { align-self: flex-start; transform-origin: left; }
-.center-expand { align-self: center; transform-origin: center; }
-.right-to-left { align-self: flex-end; transform-origin: right; }
-
-/* Khi thẻ được mở rộng */
-.story-card.expanded {
-    width: 100%; /* Chiếm trọn chiều ngang container */
-    cursor: default;
-    transform: scale(1);
+/* Trạng thái mở rộng */
+.about-card.expanded {
+    flex: 4; /* Đẩy các ô khác thu lại */
+    background: #fff;
 }
 
-.story-title {
+.card-title {
     font-family: 'Genshin', sans-serif;
-    font-size: 2rem;
-    white-space: nowrap; /* Giữ tiêu đề không bị xuống dòng khi hẹp */
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    white-space: nowrap;
 }
 
-.story-title b {
-    font-size: 3rem;
-    color: #ff3399;
+/* Hiệu ứng văn bản cắt bỏ và Lông vũ mờ */
+/* Card body với hiệu ứng lông vũ */
+.card-body {
+    color: #333;
+    line-height: 1.6;
+    /* Hiệu ứng mờ dần ở đáy card */
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 95%);
+    mask-image: linear-gradient(to bottom, black 40%, transparent 95%);
+    transition: mask-image 0.4s ease;
 }
 
-.story-content {
-    opacity: 0;
-    margin-top: 20px;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
+.about-card.expanded .card-body {
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow-y: auto;
 }
 
-.story-card.expanded .story-content {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Hiệu ứng hiện dần khi cuộn tới */
+/* Hiệu ứng Scroll Reveal */
 .scroll-reveal {
     opacity: 0;
-    filter: blur(10px);
+    transform: translateY(40px);
+    transition: all 1s ease-out;
 }
 
 .scroll-reveal.visible {
     opacity: 1;
-    filter: blur(0);
+    transform: translateY(0);
+}
+
+.about-card:active {
+    transform: translateY(-5px) scale(0.98); /* Hơi lún xuống một chút khi ấn */
+    transition: all 0.1s; /* Phản hồi cực nhanh khi click */
+}
+
+/* --- CHỈ SỬA LỖI ĐIỆN THOẠI - KHÔNG ĐỔI THIẾT KẾ MÁY TÍNH --- */
+@media (max-width: 767px) {
+    .about-flex-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 25px !important;
+        position: relative;
+    }
+
+    .about-card {
+        width: 100% !important;
+        /* Khóa chặt chiều cao khi ở trạng thái bình thường */
+        height: 180px !important; 
+        max-height: 180px !important; 
+        position: relative !important;
+        z-index: 1;
+        overflow: hidden !important;
+        transition: all 0.4s ease-in-out; /* Tạo hiệu ứng thu lại mượt */
+    }
+
+    /* Reset lại phần body bên trong khi đóng */
+    .about-card .card-body {
+        position: relative !important;
+        top: 0 !important;
+        height: auto !important;
+        transform: none !important;
+        opacity: 1;
+        padding: 0 25px 25px 25px;
+    }
+
+    /* HIỆU ỨNG LÔNG VŨ - Lớp phủ mờ ở đáy ô */
+    .about-card:not(.expanded)::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px; /* Độ cao vùng mờ */
+        background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1) 85%);
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    /* KHI MỞ RỘNG */
+    .about-card.expanded {
+        /* Cho phép giãn dài nhưng không dùng absolute để tránh lỗi vị trí */
+        height: auto !important;
+        max-height: 1000px !important; 
+        z-index: 100 !important;
+        overflow: visible !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .about-card.expanded .card-body {
+        position: absolute;
+        top: 0; /* Khi mở rộng, nó phủ toàn bộ từ đỉnh ô */
+        left: 0;
+        width: 100%;
+        height: auto !important;
+        min-height: 180px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        padding-top: 20px; /* Padding hài hòa khi mở rộng */
+        padding-bottom: 40px;
+        z-index: 101;
+        /* Hiệu ứng phóng to trượt xuống */
+        transform-origin: top center;
+        animation: scaleExpand 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes scaleExpand {
+        0% { transform: scaleY(0.95); opacity: 0.9; }
+        100% { transform: scaleY(1); opacity: 1; }
+    }
+
+    /* Làm mờ các ô bị đè */
+    .about-flex-wrapper:has(.expanded) .about-card:not(.expanded) {
+        opacity: 0.4;
+    }
+    
+    /* Tạo lớp đè lên các ô khác mà không làm mất vị trí gốc */
+    .about-card.expanded::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        border-radius: 20px;
+        z-index: -1;
+    }
 }
 
 

@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function expandCard(card) {
-    // Nếu thẻ đã mở thì đóng lại, nếu chưa thì mở và đóng các thẻ khác
     const isExpanded = card.classList.contains('expanded');
     
-    document.querySelectorAll('.story-card').forEach(c => {
+    // Đóng tất cả các ô khác
+    document.querySelectorAll('.about-card').forEach(c => {
         c.classList.remove('expanded');
     });
 
@@ -138,14 +138,28 @@ function expandCard(card) {
     }
 }
 
-// Hiệu ứng Scroll Reveal (Hiện ra khi cuộn màn hình tới)
-const observerOptions = { threshold: 0.3 };
-const observer = new IntersectionObserver((entries) => {
+// Giữ nguyên Observer cũ của bạn bên dưới
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
         }
     });
-}, observerOptions);
+}, { threshold: 0.2 });
 
-document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
+
+function expandCard(card) {
+    const isExpanded = card.classList.contains('expanded');
+    
+    // Đóng tất cả các ô khác để chữ của chúng biến mất
+    document.querySelectorAll('.about-card').forEach(c => {
+        c.classList.remove('expanded');
+    });
+
+    // Nếu chưa mở thì mở, nếu mở rồi thì đóng lại
+    if (!isExpanded) {
+        card.classList.add('expanded');
+    }
+}
+

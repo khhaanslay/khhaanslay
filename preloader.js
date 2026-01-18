@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         clearInterval(loopInterval);
         loader.style.opacity = '0';
-        setTimeout(() => loader.remove(), 1000);
-    }, 4500);
-});
+        setTimeout(() => {
+        loader.style.display = 'none'; // Ép nó biến mất hoàn toàn
+    }, 800);
+}, 500);
+}
+)
