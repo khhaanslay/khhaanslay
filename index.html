@@ -130,22 +130,85 @@
             </div>
 
             <div class="about-card scroll-reveal" onclick="expandCard(this)">
-                <h2 class="card-title"><u><b>M</b>ục Tiêu</u></h2>
+                <h2 class="card-title"><u><b>S</b>ở thích</u></h2>
                 <div class="card-body">
-                    <p>Trở thành một lập trình viên Fullstack chuyên nghiệp, xây dựng những ứng dụng có ích cho cộng đồng và không ngừng học hỏi công nghệ mới.</p>
+                    <p>Tớ thường rảnh nhất vào những buổi tối và khuya — khi mọi thứ lặng xuống và tớ có thể thật sự sống cùng cảm xúc của mình. Thỉnh thoảng, những khoảng trưa yên ả cũng là lúc tớ dành cho bản thân chút nghỉ ngơi và dịu lại giữa nhịp sống vội vàng.
+
+                    <p>Tớ thích xem phim để cảm nhận những câu chuyện chạm vào lòng, nghe nhạc để thả trôi tâm trạng, ăn vặt như một niềm vui nhỏ bé, và chụp ảnh để giữ lại những khoảnh khắc mà tớ sợ thời gian sẽ cuốn đi mất. Trên hết, tớ luôn yêu những điều mới mẻ — vì mỗi lần dám thử là một lần tớ thấy mình trưởng thành hơn và tiến gần hơn tới phiên bản tốt đẹp mà tớ luôn muốn trở thành. ✨
                 </div>
             </div>
 
             <div class="about-card scroll-reveal" onclick="expandCard(this)">
-                <h2 class="card-title"><u><b>C</b>ảm Hứng</u></h2>
+                <h2 class="card-title"><u><b>L</b>àm quen?</u></h2>
                 <div class="card-body">
-                    <p>Luôn tin rằng: "Cách duy nhất để làm nên những điều vĩ đại là yêu lấy những gì bạn đang làm."</p>
+                    <p>Nếu cậu có ý định làm quen với tớ, có vài điều tớ muốn nói trước. Tớ là người khá ngại mở lời khi mới gặp, thậm chí còn sợ người lạ nên việc bắt chuyện với tớ lúc đầu có thể hơi khó. Nhưng khi đã quen rồi, tớ lại rất cởi mở và hướng ngoại, dễ gần hơn rất nhiều.</p>
+
+                    <p>Tớ thích những người mang lại cho tớ cảm giác an toàn, gần gũi và có thể dựa vào — dù chỉ là trong những điều nhỏ bé. Nếu cậu là người thoải mái, không quá để tâm chuyện vụn vặt và đủ trưởng thành để giữ cảm xúc bình tĩnh trước những điều lớn hơn, thì tớ rất sẵn lòng mở lòng với cậu.</p>
+
+                    <p>Tớ chỉ hoạt động trên Discord và Facebook, nên nếu muốn hiểu tớ hơn, cậu có thể tìm tớ ở đó nhé."</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<section class="profile-display-section">
+    <div class="glass-card profile-top">
+        <div class="card-header">
+            <div class="view-counter">
+                <i class="icon-eye"></i> <span id="view-count">0</span>
+            </div>
+            <div class="heart-btn">
+                <button id="like-btn">❤</button>
+            </div>
+        </div>
 
+        <div class="profile-info">
+            <div class="avatar-wrapper-new">
+                <img id="profile-discord-avatar" src="" alt="Avatar">
+                <img id="profile-discord-deco" src="" alt="Decoration">
+            </div>
+            <h2 id="profile-discord-name" class="genshin-font">Loading...</h2>
+            
+            <div class="social-links-box">
+                <div class="social-item"><img src="imgs/link1.png" alt="FB"></div>
+                <div class="social-item"><img src="imgs/link2.png" alt="IG"></div>
+                <div class="social-item"><img src="imgs/link3.png" alt="TK"></div>
+                <div class="social-item"><img src="imgs/link4.png" alt="GH"></div>
+            </div>
+        </div>
+    </div>
+    <div class="glass-card music-bottom">
+    <div class="music-player">
+        <audio id="main-audio" src="music/song1.mp3"></audio> 
+
+        <div class="music-info">
+            <div class="disk-container">
+                <img src="imgs/music-disk.png" id="music-disk" class="music-thumb" alt="Music">
+            </div>
+            <div class="music-detail">
+                <p id="song-name">Tên bài hát</p>
+                <p id="artist-name">Nghệ sĩ</p>
+                <div class="progress-container" id="progress-area">
+                    <div class="progress-bar">
+                        <div id="music-progress" class="progress"></div>
+                    </div>
+                    <div class="time-stamp">
+                        <span id="current-time">0:00</span>
+                        <span id="total-time">0:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="music-controls">
+            <div class="control-icon" id="prev-btn"><img src="imgs/prev.png" alt="Prev"></div>
+            <div class="control-icon play-main" id="play-pause-btn">
+                <img src="imgs/play.png" id="play-img" alt="Play">
+            </div>
+            <div class="control-icon" id="next-btn"><img src="imgs/next.png" alt="Next"></div>
+        </div>
+    </div>
+</div>
+</section>
     <footer class="footer-section">
         <h3>Liên Hệ</h3>
         <p>Đơn giản là contact đại loại như v</p>
