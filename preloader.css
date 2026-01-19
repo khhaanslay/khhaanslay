@@ -1,7 +1,7 @@
 #genshin-loader {
     position: fixed;
     inset: 0;
-    z-index: 100000;
+    z-index: 999999;
     background: #000;
     transition: opacity 1s ease;
 }
@@ -35,4 +35,52 @@
 #element-display.active {
     opacity: 1;
     transform: scale(1);
+}
+
+/* Màn che mờ */
+.enter-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85); /* Nền tối mờ */
+    backdrop-filter: blur(20px); /* Độ mờ màn hình */
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999990; /* Luôn nằm trên cùng */
+    cursor: pointer;
+    transition: opacity 1s ease, visibility 1s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Khi kích hoạt hiện lên */
+.enter-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.enter-content {
+    text-align: center;
+}
+
+.enter-text {
+    font-family: 'Genshin', sans-serif;
+    color: white;
+    font-size: 3rem;
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    animation: pulseText 2s infinite ease-in-out;
+}
+
+@keyframes pulseText {
+    0%, 100% { opacity: 0.6; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+/* Ẩn scroll khi đang ở màn che */
+body.no-scroll {
+    overflow: hidden !important;
 }

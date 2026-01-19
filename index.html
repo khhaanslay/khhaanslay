@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>khhaanslay</title>
+    <audio id="main-audio" src=""></audio>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="icons.css">
     <link rel="stylesheet" href="preloader.css">
@@ -17,6 +19,49 @@
             <div id="element-display" class="element-fixed"></div>
         </div>
     </div>
+    <div id="enter-screen" class="enter-overlay">
+        <div class="enter-content">
+            <h1 class="enter-text">khhaanslay!</h1>
+        </div>
+    </div>
+<div id="floating-player">
+    <!-- Ảnh nhỏ khi thu gọn -->
+    <img id="floating-cover">
+
+    <div class="floating-expanded">
+
+        <!-- Ảnh lớn khi mở -->
+        <img id="popup-cover-large">
+
+        <!-- Tên bài -->
+        <p id="floating-title"></p>
+
+        <!-- Thời lượng -->
+        <div class="time-row">
+            <span id="mini-current">0:00</span>
+            <span id="mini-duration">0:00</span>
+        </div>
+
+        <!-- Thanh tua -->
+        <div id="mini-progress-area">
+            <div id="popup-progress"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="popup-controls">
+            <i class="material-icons" id="popup-prev">skip_previous</i>
+            <i class="material-icons" id="popup-play">pause_circle_filled</i>
+            <i class="material-icons" id="popup-next">skip_next</i>
+        </div>
+
+        <!-- Volume -->
+        <div class="volume-area">
+            <i class="material-icons">volume_up</i>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01">
+        </div>
+
+    </div>
+</div>
 
    <section class="hero">
     <div class="hero-background"></div>
@@ -152,62 +197,80 @@
     </div>
 </section>
 <section class="profile-display-section">
-    <div class="glass-card profile-top">
-        <div class="card-header">
-            <div class="view-counter">
-                <i class="icon-eye"></i> <span id="view-count">0</span>
-            </div>
-            <div class="heart-btn">
-                <button id="like-btn">❤</button>
-            </div>
+    <div class="glass-card">
+        <div class="avatar-wrapper-new">
+            <img id="profile-discord-avatar" src="imgs/default-avt.png">
+            <img id="profile-discord-deco" src=""> 
         </div>
+        
+        <h2 id="profile-discord-name">Khánh Hân</h2>
 
-        <div class="profile-info">
-            <div class="avatar-wrapper-new">
-                <img id="profile-discord-avatar" src="" alt="Avatar">
-                <img id="profile-discord-deco" src="" alt="Decoration">
-            </div>
-            <h2 id="profile-discord-name" class="genshin-font">Loading...</h2>
-            
-            <div class="social-links-box">
-                <div class="social-item"><img src="imgs/link1.png" alt="FB"></div>
-                <div class="social-item"><img src="imgs/link2.png" alt="IG"></div>
-                <div class="social-item"><img src="imgs/link3.png" alt="TK"></div>
-                <div class="social-item"><img src="imgs/link4.png" alt="GH"></div>
-            </div>
-        </div>
+        <div class="card-social-container">
+
+        <a href="https://www.facebook.com/khhaanslay" target="_blank" class="card-social-item">
+            <img src="imgs/fb-black.png">
+        </a>
+
+        <a href="https://www.youtube.com/@khhaanslay" target="_blank" class="card-social-item">
+            <img src="imgs/Youtube-Black.png">
+        </a>
+
+        <a href="#" class="card-social-item gmail">
+            <img src="imgs/mail-icon.png">
+            <span class="gmail-tooltip">khhaanslay@gmail.com</span>
+        </a>
+
+
+        <a href="https://discord.gg/GcNFJnmEhP" target="_blank" class="card-social-item">
+            <img src="imgs/discord-black.png">
+        </a>
+
     </div>
-    <div class="glass-card music-bottom">
-    <div class="music-player">
-        <audio id="main-audio" src="music/song1.mp3"></audio> 
+    </div>
+    <div class="glass-card-music" id="music-card">
+    <div class="music-player-horizontal">
 
-        <div class="music-info">
-            <div class="disk-container">
-                <img src="imgs/music-disk.png" id="music-disk" class="music-thumb" alt="Music">
-            </div>
-            <div class="music-detail">
-                <p id="song-name">Tên bài hát</p>
-                <p id="artist-name">Nghệ sĩ</p>
-                <div class="progress-container" id="progress-area">
-                    <div class="progress-bar">
-                        <div id="music-progress" class="progress"></div>
-                    </div>
-                    <div class="time-stamp">
-                        <span id="current-time">0:00</span>
-                        <span id="total-time">0:00</span>
+        <!-- BÊN TRÁI: ĐĨA -->
+        <div class="disk-container">
+            <img src="imgs/music-icon1.jpg" id="music-disk" alt="Music Cover">
+        </div>
+
+        <!-- Ở GIỮA: TÊN + THANH -->
+        <div class="music-main-controls">
+            <p id="song-name">Tên bài hát</p>
+
+            <div class="progress-area" id="progress-area">
+                <div class="progress-bar">
+                    <div id="music-progress" class="progress">
+                        <span class="progress-handle"></span>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="music-controls">
-            <div class="control-icon" id="prev-btn"><img src="imgs/prev.png" alt="Prev"></div>
-            <div class="control-icon play-main" id="play-pause-btn">
-                <img src="imgs/play.png" id="play-img" alt="Play">
+
+            <div class="time-display">
+                <span id="current-time">0:00</span>
+                <span id="total-time">0:00</span>
             </div>
-            <div class="control-icon" id="next-btn"><img src="imgs/next.png" alt="Next"></div>
         </div>
+
+        <!-- BÊN PHẢI: NÚT -->
+        <div class="music-controls">
+            <div class="control-icon" id="prev-btn">
+                <i class="material-icons">skip_previous</i>
+            </div>
+
+            <div class="control-icon" id="play-pause-btn">
+                <i class="material-icons" id="mainIcon">play_circle_filled</i>
+            </div>
+
+            <div class="control-icon" id="next-btn">
+                <i class="material-icons">skip_next</i>
+            </div>
+        </div>
+
     </div>
 </div>
+
 </section>
     <footer class="footer-section">
         <h3>Liên Hệ</h3>
@@ -221,9 +284,9 @@
     <section class="coming-soon">
         <h1>Coming Soon</h1>
     </section>
+<script src="preloader.js"></script>
 <script src="script.js"></script>
 <script src="admin.js"></script>
 <script src="icons.js"></script>
-<script src="preloader.js"></script>
 </body>
 </html>

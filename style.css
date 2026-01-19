@@ -668,10 +668,8 @@ body {
     align-items: center;
     background: rgba(0, 0, 0, 0.3); /* Nền tối mờ */
     padding: 8px 12px;
-    border-radius: 8px; /* Bo góc nhẹ cho khung chứa */
     margin-bottom: 8px;
     transition: background 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .social-item:hover {
@@ -1054,84 +1052,463 @@ body {
     }
 }
 
+/* --- PHẦN HIỂN THỊ PROFILE (BỐ CỤC MỚI) --- */
 .profile-display-section {
-    min-height: 100vh;
+    min-height:100vh;
     background: url('imgs/colum-bg.jpeg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    padding: 40px 10px;
+    gap: 30px; 
+    padding: 60px 10px;
 }
 
-/* Hiệu ứng Glassmorphism với viền đen đậm */
+/* --- THẺ GLASS CARD - MỞ RỘNG RỘNG VÀ DÀI --- */
+/* 1. Đảm bảo Card chính có Position Relative để ghim các thứ khác */
 .glass-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border:2px solid #000; /* Viền đen đậm dễ nhìn */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 2px solid #000;
     width: 95%;
-    max-width: 420px;
+    max-width: 485px; 
     border-radius: 24px;
-    padding: 20px;
+    padding: 30px 30px 80px 30px; /* Tăng padding-bottom (80px) để tạo chỗ trống cho icon ở đáy */
     color: white;
+    position: relative; /* BẮT BUỘC để ghim icon link */
+    margin-top: 70px;
 }
 
-/* Avatar và Decoration */
-.avatar-wrapper-new {
-    position: relative;
-    width: 110px;
-    height: 110px;
-    margin: 0 auto 15px;
-}
+/* Avatar và TRANG TRÍ DISCORD */
+
 #profile-discord-avatar {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid #000;
+    border: 2px solid #ffffff;
+    object-fit: cover;
 }
+
+/* Trang trí Discord (Hình 3 của bạn) */
 #profile-discord-deco {
     position: absolute;
-    top: -10%; left: -10%;
-    width: 120%;
-    z-index: 2;
+    top: -10%; 
+    left: -10%;
+    width: 120%; /* Bao phủ rộng hơn avatar một chút */
+    z-index: 21; /* Nằm đè lên trên ảnh đại diện */
+    pointer-events: none;
+    display: block !important; /* Đảm bảo luôn hiển thị nếu có link ảnh */
 }
 
-/* Ô đen mờ chứa link */
-.social-links-box {
-    background: rgba(0, 0, 0, 0.5); /* Đen mờ đục */
-    margin-top: 15px;
-    padding: 12px;
-    border-radius: 18px;
+#profile-discord-name {
+    margin-top: 60px; /* Đẩy tên xuống để không bị avatar che mất */
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* --- Ô NỀN LINK (Dùng đúng class card-social-container) --- */
+.card-social-container {
+    /* 1. Tạo nền kính mờ riêng biệt */
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 15px;
+
+    /* 2. Thu nhỏ ô nền và căn giữa */
+    width: 90% !important;
+    height:60px !important;
+    margin: 30px auto 0 !important; /* Cách tên bên trên 30px */
+    padding: 8px 18px !important;
+
+    /* 3. Sắp xếp các item sát nhau hơn */
+    display: flex !important;
+    justify-content: center;
+    gap: 12px !important; /* Khoảng cách giữa các icon thu hẹp lại */
+}
+
+/* --- ITEM VÀ ICON LINK (Xóa sạch viền) --- */
+.card-social-item {
+    background: none !important;
+    border: none !important; /* Bỏ viền của item */
+    padding: 0 !important;
     display: flex;
-    justify-content: space-around;
-    border: 1px solid rgba(255,255,255,0.1);
+    align-items: center;
 }
-.social-item img { width: 28px; height: 28px; cursor: pointer; transition: 0.3s; }
-.social-item img:hover { transform: scale(1.2); }
 
-.progress-container {
+.card-social-item img {
+    width: 28px;
+    height: 28px;
+    border: none !important;      /* Xóa viền của ảnh */
+    outline: none !important;     /* Xóa đường outline */
+    box-shadow: none !important;  /* Xóa bóng đổ tạo cảm giác có viền */
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
     cursor: pointer;
-    padding: 10px 0; /* Tăng vùng click để dễ tua nhạc */
+}
+
+.card-social-item img:hover {
+    transform: scale(1.15);
+}
+
+.gmail {
+    position: relative;
+}
+
+.gmail-tooltip {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s ease;
+}
+
+/* mũi nhọn nhỏ */
+.gmail-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.85) transparent transparent transparent;
+}
+
+.gmail:hover .gmail-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+/* 4. Sửa Trang trí Discord (Decoration) cho chuẩn */
+.avatar-wrapper-new {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+}
+
+/* --- PHẦN NHẠC (HÌNH VUÔNG BO GÓC) --- */
+/* GLASS */
+.glass-card-music {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 2px solid #000;
+    width: 95%;
+    max-width: 550px;
+    border-radius: 24px;
+    color: white;
+    padding: 14px 18px;
+}
+
+/* LAYOUT NGANG */
+.music-player-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+}
+
+/* DISK */
+.disk-container {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+}
+
+#music-disk {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    border: 2px solid #000;
+    object-fit: cover;
+    animation: none !important;
+}
+
+/* PHẦN GIỮA */
+.music-main-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#song-name {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* TIME + PROGRESS */
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+/* THANH TUA */
+.progress-area {
+    width: 100%;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .progress-bar {
     width: 100%;
-    height: 6px;
-    background: rgba(0, 0, 0, 0.2);
+    height: 5px;
+    background: rgba(0,0,0,0.25);
     border-radius: 10px;
+    overflow: hidden;
     position: relative;
 }
 
 .progress {
-    height: 100%;
-    background: #fff; /* Màu thanh tiến trình chạy */
-    border-radius: 10px;
-    width: 0%;
     position: relative;
+    height: 100%;
+    width: 0%;
+    background: #000;
 }
-.profile-discord-name {
-    text-align: center;
+
+/* vạch trắng cuối */
+.progress::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background: white;
 }
+
+/* nút tròn kéo */
+.progress-handle {
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.15s;
+}
+
+.progress-area:hover .progress-handle {
+    transform: translateY(-50%) scale(1);
+}
+
+/* CONTROLS BÊN PHẢI */
+.music-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 0;
+}
+
+/* ICON CHUNG */
+.material-icons {
+    font-size: 28px;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.material-icons:hover {
+    transform: scale(1.15);
+}
+
+#floating-player{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:rgb(0, 0, 0);
+    border:2px solid rgb(255, 255, 255);
+    z-index:9999;
+    transition:0.35s ease;
+    cursor:pointer;
+    overflow:hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* ảnh nhỏ */
+#floating-cover{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+/* phần mở rộng */
+.floating-expanded{
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(10px);
+    transition:0.25s ease;
+    color: white;
+}
+
+/* hover mở rộng */
+#floating-player:hover{
+    width:300px;
+    height:420px !important;
+    border-radius:20px;
+    padding:12px;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+
+/* ảnh nhỏ khi mở */
+#floating-player:hover #floating-cover{
+    width:60px;
+    height:60px;
+    border-radius:12px;
+    display: none;
+}
+#floating-player:hover p,
+#floating-player:hover span{
+    color:white;
+}
+
+/* hiện nội dung */
+#floating-player:hover .floating-expanded{
+    opacity:1;
+    pointer-events:auto;
+    transform:none;
+}
+
+/* ẢNH LỚN */
+#popup-cover-large{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+    border-radius:18px;
+    margin-bottom:10px;
+    background: #000;
+}
+
+/* TIME */
+.time-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    margin:6px 0 4px;
+}
+
+/* THANH TUA */
+#mini-progress-area{
+    width:100%;
+    height:6px;
+    background:rgba(255,255,255,0.2);
+    border-radius:10px;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+#popup-progress{
+    height:100%;
+    width:0%;
+    background:rgb(255, 255, 255);
+}
+
+/* controls */
+.popup-controls{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+.popup-controls i{
+    font-size:34px;
+    cursor:pointer;
+}
+
+#popup-play{
+    font-size:46px;
+}
+
+/* volume */
+.volume-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+}
+
+/* icon */
+.volume-area i{
+    font-size:22px;
+    color:white;
+}
+
+/* range tổng */
+#volume-slider{
+    -webkit-appearance:none;
+    appearance:none;
+    width:100%;
+    height:6px;
+    background:rgba(255,255,255,0.25);
+    border-radius:20px;
+    outline:none;
+}
+
+/* track chrome */
+#volume-slider::-webkit-slider-runnable-track{
+    height:6px;
+    border-radius:20px;
+}
+
+/* nút tròn */
+#volume-slider::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    appearance:none;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:white;
+    margin-top:-4px; /* QUAN TRỌNG: giúp nút nằm giữa track */
+    cursor:pointer;
+}
+
+/* firefox */
+#volume-slider::-moz-range-track{
+    height:6px;
+    background:rgba(255,255,255,0.25);
+    border-radius:20px;
+}
+
+#volume-slider::-moz-range-thumb{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:white;
+    border:none;
+    cursor:pointer;
+}
+
+

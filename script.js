@@ -303,3 +303,197 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+const mainAudio = document.getElementById("main-audio");
+const songName = document.getElementById("song-name");
+const musicDisk = document.getElementById("music-disk");
+const mainIcon = document.getElementById("mainIcon");
+const progressArea = document.getElementById("progress-area");
+
+
+// Hàm định dạng thời gian
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "0:00";
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min}:${sec < 10 ? '0' + sec : sec}`;
+}
+
+// Cập nhật Icon chuẩn: Phát nhạc thì hiện Pause, Dừng nhạc thì hiện Play
+function updateIconState() {
+    mainIcon.textContent = mainAudio.paused 
+        ? "play_circle_filled" 
+        : "pause_circle_filled";
+}
+
+
+mainAudio.addEventListener('play', updateIconState);
+mainAudio.addEventListener('pause', updateIconState);
+
+
+// 2. LỆNH TỰ ĐỘNG SANG BÀI (Dứt điểm yêu cầu của bạn)
+mainAudio.onended = () => {
+    // Chuyển sang bài tiếp theo
+    window.currentTrackIndex = (window.currentTrackIndex + 1) % window.musicList.length;
+    
+    // Nạp bài mới
+    window.loadAndPlay(window.currentTrackIndex); 
+    
+    // Quan trọng: Sau khi loadAndPlay, icon sẽ tự đổi vì trong loadAndPlay đã có updateIconState
+};
+
+// Hàm nạp nhạc (Quan trọng: Sửa lỗi 0:00)
+window.loadAndPlay = function(index) {
+    const track = window.musicList[index];
+    if (!track) return;
+
+    window.currentTrackIndex = index;
+    mainAudio.src = track.src;
+    songName.innerText = track.name;
+    musicDisk.src = track.cover;
+
+    mainAudio.load(); // Buộc trình duyệt nạp lại source mới
+
+    // Lắng nghe khi dữ liệu đã sẵn sàng để lấy thời lượng
+    mainAudio.onloadeddata = () => {
+        document.getElementById("total-time").innerText = formatTime(mainAudio.duration);
+    };
+
+    // Chỉ phát nếu được gọi từ lệnh click (tránh lỗi bảo mật trình duyệt)
+    mainAudio.play().then(() => {
+        updateIconState();
+    }).catch(e => console.log("Yêu cầu tương tác người dùng"));
+};
+
+// Nút Play/Pause (Sửa lỗi lúc được lúc không)
+document.getElementById("play-pause-btn").onclick = (e) => {
+    e.preventDefault();
+    if (mainAudio.paused) {
+        mainAudio.play();
+    } else {
+        mainAudio.pause();
+    }
+    // updateIconState() sẽ tự chạy nhờ listener ở mục 2
+};
+
+const current = document.getElementById("current");
+const duration = document.getElementById("duration");
+const progressBar = document.getElementById("music-progress");
+
+mainAudio.addEventListener("loadedmetadata", () => {
+    let m = Math.floor(mainAudio.duration/60);
+    let s = Math.floor(mainAudio.duration%60);
+    if(s<10) s="0"+s;
+    duration.textContent = `${m}:${s}`;
+});
+
+mainAudio.addEventListener("timeupdate", () => {
+    let m = Math.floor(mainAudio.currentTime/60);
+    let s = Math.floor(mainAudio.currentTime%60);
+    if(s<10) s="0"+s;
+    current.textContent = `${m}:${s}`;
+
+    progressBar.style.width =
+        (mainAudio.currentTime/mainAudio.duration)*100 + "%";
+});
+
+progressArea.addEventListener("click",(e)=>{
+    const w = progressArea.clientWidth;
+    mainAudio.currentTime = (e.offsetX / w) * mainAudio.duration;
+});
+
+// Chuyển bài
+document.getElementById("next-btn").onclick = () => {
+    let index = (window.currentTrackIndex + 1) % window.musicList.length;
+    window.loadAndPlay(index);
+};
+document.getElementById("prev-btn").onclick = () => {
+    let index = (window.currentTrackIndex - 1 + window.musicList.length) % window.musicList.length;
+    window.loadAndPlay(index);
+};
+
+const floatingCover = document.getElementById("floating-cover");
+const largeCover = document.getElementById("popup-cover-large");
+const floatingTitle = document.getElementById("floating-title");
+
+const popupPlay = document.getElementById("popup-play");
+const popupNext = document.getElementById("popup-next");
+const popupPrev = document.getElementById("popup-prev");
+
+const popupProgress = document.getElementById("popup-progress");
+const miniCurrent = document.getElementById("mini-current");
+const miniDuration = document.getElementById("mini-duration");
+const miniProgressArea = document.getElementById("mini-progress-area");
+
+const volumeSlider = document.getElementById("volume-slider");
+
+/* Đồng bộ bài hiện tại */
+function syncMiniPlayer(){
+    const track = window.musicList[window.currentTrackIndex];
+    if(!track) return;
+
+    floatingCover.src = track.cover;
+    largeCover.src = track.cover;
+    floatingTitle.textContent = track.name;
+}
+syncMiniPlayer();
+
+/* Khi player chính đổi bài */
+mainAudio.addEventListener("loadeddata", syncMiniPlayer);
+
+/* Play / Pause */
+popupPlay.onclick = ()=>{
+    mainAudio.paused ? mainAudio.play() : mainAudio.pause();
+};
+
+mainAudio.addEventListener("play",()=>popupPlay.textContent="pause_circle_filled");
+mainAudio.addEventListener("pause",()=>popupPlay.textContent="play_circle_filled");
+
+/* Next / Prev */
+popupNext.onclick = ()=>{
+    let i = (window.currentTrackIndex+1)%window.musicList.length;
+    window.loadAndPlay(i);
+};
+
+popupPrev.onclick = ()=>{
+    let i = (window.currentTrackIndex-1+window.musicList.length)%window.musicList.length;
+    window.loadAndPlay(i);
+};
+
+/* Progress + time */
+mainAudio.addEventListener("timeupdate",()=>{
+    if(!mainAudio.duration) return;
+
+    let cur = mainAudio.currentTime;
+    let dur = mainAudio.duration;
+
+    popupProgress.style.width = (cur/dur)*100 + "%";
+    miniCurrent.textContent = formatTime(cur);
+});
+
+mainAudio.addEventListener("loadedmetadata",()=>{
+    miniDuration.textContent = formatTime(mainAudio.duration);
+});
+
+function formatTime(t){
+    let m = Math.floor(t/60);
+    let s = Math.floor(t%60);
+    if(s<10) s="0"+s;
+    return `${m}:${s}`;
+}
+
+/* Click tua */
+miniProgressArea.addEventListener("click",(e)=>{
+    const rect = miniProgressArea.getBoundingClientRect();
+    const percent = (e.clientX - rect.left)/rect.width;
+    mainAudio.currentTime = percent * mainAudio.duration;
+});
+
+/* Volume */
+volumeSlider.value = mainAudio.volume;
+volumeSlider.oninput = ()=> mainAudio.volume = volumeSlider.value;
+document.addEventListener("DOMContentLoaded", () => {
+    mainAudio.volume = 0.5;          // âm lượng mặc định 50%
+    volumeSlider.value = 0.5;        // đồng bộ slider
+});
+
+
