@@ -111,6 +111,83 @@
     </div>
 </section>
 
+<section class="profile-display-section">
+    <div class="glass-card">
+        <div class="avatar-wrapper-new">
+            <img id="profile-discord-avatar" src="imgs/default-avt.png">
+            <img id="profile-discord-deco" src=""> 
+        </div>
+        
+        <h2 id="profile-discord-name">Khánh Hân</h2>
+
+        <div class="card-social-container">
+
+        <a href="https://www.facebook.com/khhaanslay" target="_blank" class="card-social-item">
+            <img src="imgs/fb-black.png">
+        </a>
+
+        <a href="https://www.youtube.com/@khhaanslay" target="_blank" class="card-social-item">
+            <img src="imgs/Youtube-Black.png">
+        </a>
+
+        <a href="#" class="card-social-item gmail">
+            <img src="imgs/mail-icon.png">
+            <span class="gmail-tooltip">khhaanslay@gmail.com</span>
+        </a>
+
+
+        <a href="https://discord.gg/GcNFJnmEhP" target="_blank" class="card-social-item">
+            <img src="imgs/discord-black.png">
+        </a>
+
+    </div>
+    </div>
+    <div class="glass-card-music" id="music-card">
+    <div class="music-player-horizontal">
+
+        <!-- BÊN TRÁI: ĐĨA -->
+        <div class="disk-container">
+            <img src="imgs/music-icon1.jpg" id="music-disk" alt="Music Cover">
+        </div>
+
+        <!-- Ở GIỮA: TÊN + THANH -->
+        <div class="music-main-controls">
+            <p id="song-name">Tên bài hát</p>
+
+            <div class="progress-area" id="progress-area">
+                <div class="progress-bar">
+                    <div id="music-progress" class="progress">
+                        <span class="progress-handle"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-display">
+                <span id="current-time">0:00</span>
+                <span id="total-time">0:00</span>
+            </div>
+        </div>
+
+        <!-- BÊN PHẢI: NÚT -->
+        <div class="music-controls">
+            <div class="control-icon" id="prev-btn">
+                <i class="material-icons">skip_previous</i>
+            </div>
+
+            <div class="control-icon" id="play-pause-btn">
+                <i class="material-icons" id="mainIcon">play_circle_filled</i>
+            </div>
+
+            <div class="control-icon" id="next-btn">
+                <i class="material-icons">skip_next</i>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</section>
+
 <main id="than-bai" class="body-section">
     <div class="body-blur-bg"></div>
     
@@ -200,82 +277,39 @@
         </div>
     </div>
 </section>
-<section class="profile-display-section">
-    <div class="glass-card">
-        <div class="avatar-wrapper-new">
-            <img id="profile-discord-avatar" src="imgs/default-avt.png">
-            <img id="profile-discord-deco" src=""> 
-        </div>
-        
-        <h2 id="profile-discord-name">Khánh Hân</h2>
 
-        <div class="card-social-container">
+<section class="couple-section">
+    <div class="couple-card">
+        <div class="couple-content">
+            <div class="person">
+                <div class="avt-circle">
+                    <img src="imgs/nam.jpg" alt="Nam"> </div>
+                <p class="name">khánh</p>
+            </div>
 
-        <a href="https://www.facebook.com/khhaanslay" target="_blank" class="card-social-item">
-            <img src="imgs/fb-black.png">
-        </a>
-
-        <a href="https://www.youtube.com/@khhaanslay" target="_blank" class="card-social-item">
-            <img src="imgs/Youtube-Black.png">
-        </a>
-
-        <a href="#" class="card-social-item gmail">
-            <img src="imgs/mail-icon.png">
-            <span class="gmail-tooltip">khhaanslay@gmail.com</span>
-        </a>
-
-
-        <a href="https://discord.gg/GcNFJnmEhP" target="_blank" class="card-social-item">
-            <img src="imgs/discord-black.png">
-        </a>
-
-    </div>
-    </div>
-    <div class="glass-card-music" id="music-card">
-    <div class="music-player-horizontal">
-
-        <!-- BÊN TRÁI: ĐĨA -->
-        <div class="disk-container">
-            <img src="imgs/music-icon1.jpg" id="music-disk" alt="Music Cover">
-        </div>
-
-        <!-- Ở GIỮA: TÊN + THANH -->
-        <div class="music-main-controls">
-            <p id="song-name">Tên bài hát</p>
-
-            <div class="progress-area" id="progress-area">
-                <div class="progress-bar">
-                    <div id="music-progress" class="progress">
-                        <span class="progress-handle"></span>
-                    </div>
+            <div class="heart-center">
+                <i class="material-icons heart-icon">favorite</i>
+                <div class="days-count">
+                    <span id="count-number">0</span>
                 </div>
             </div>
 
-            <div class="time-display">
-                <span id="current-time">0:00</span>
-                <span id="total-time">0:00</span>
+            <div class="person">
+                <div class="avt-circle">
+                    <img src="imgs/diu.jpg" alt="Nữ"> </div>
+                <p class="name">dịu</p>
             </div>
         </div>
 
-        <!-- BÊN PHẢI: NÚT -->
-        <div class="music-controls">
-            <div class="control-icon" id="prev-btn">
-                <i class="material-icons">skip_previous</i>
-            </div>
-
-            <div class="control-icon" id="play-pause-btn">
-                <i class="material-icons" id="mainIcon">play_circle_filled</i>
-            </div>
-
-            <div class="control-icon" id="next-btn">
-                <i class="material-icons">skip_next</i>
-            </div>
+        <div class="date-footer">
+            <span id="start-date">06/10/2025</span>
+            <span class="date-divider">―</span>
+            <span id="today-date">01/01/2026</span>
         </div>
-
     </div>
-</div>
-
 </section>
+
+
     <footer class="footer-section">
         <h3>Liên Hệ</h3>
         <p>Đơn giản là contact đại loại như v</p>

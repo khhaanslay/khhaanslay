@@ -407,8 +407,8 @@ miniProgressArea?.addEventListener("click", e => {
 
 /* ---------- VOLUME ---------- */
 if (volumeSlider) {
-    mainAudio.volume = 0.5;
-    volumeSlider.value = 0.5;
+    mainAudio.volume = 0.3;
+    volumeSlider.value = 0.3;
 
     volumeSlider.addEventListener("input", e => {
         mainAudio.volume = e.target.value;
@@ -448,3 +448,29 @@ window.startEverything = function () {
         .then(updateIconState)
         .catch(() => console.log("Yêu cầu tương tác để phát nhạc"));
 };
+
+function updateCoupleTimer() {
+    // 1. Cấu hình ngày bắt đầu (Năm, Tháng-1, Ngày)
+    // Lưu ý: Tháng trong JS chạy từ 0-11 (Tháng 10 là số 9)
+    const startDate = new Date(2025, 9, 6); 
+    const now = new Date();
+
+    // 2. Tính số ngày đã yêu
+    const diffTime = Math.abs(now - startDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // 3. Hiển thị lên màn hình
+    const countElement = document.getElementById("count-number");
+    if(countElement) countElement.innerText = diffDays;
+
+    // 4. Cập nhật ngày hiện tại (định dạng DD/MM/YYYY)
+    const todayStr = now.getDate().toString().padStart(2, '0') + '/' + 
+                     (now.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                     now.getFullYear();
+    
+    const todayElement = document.getElementById("today-date");
+    if(todayElement) todayElement.innerText = todayStr;
+}
+
+// Chạy hàm khi trang web tải xong
+document.addEventListener("DOMContentLoaded", updateCoupleTimer);

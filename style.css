@@ -1521,3 +1521,97 @@ body {
 #lanyard-status-text.dnd { color: #ed4245; }
 #lanyard-status-text.offline { color: #747f8d; }
 
+/* Container chính cho phần Couple */
+.couple-section {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    background: url('imgs/love-bg.jpeg') no-repeat center; /* Thay nền của bạn */
+    background-size: cover;
+}
+
+.couple-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    text-align: center;
+    color: white;
+}
+
+.couple-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+/* Avatar tròn */
+.avt-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    overflow: hidden;
+    background: #333; /* Màu mặc định khi trống */
+}
+
+.avt-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.name {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Hiệu ứng trái tim đập */
+.heart-icon {
+    color: #ff4d4d;
+    font-size: 50px !important;
+    text-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+    animation: heartBeat 1.2s infinite ease-in-out;
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+}
+
+.days-count {
+    margin-top: 5px;
+}
+
+#count-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    display: block;
+}
+
+.days-count p {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Footer ngày tháng */
+.date-footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+    opacity: 0.9;
+}
+
+.date-divider { color: #ff4d4d; }
