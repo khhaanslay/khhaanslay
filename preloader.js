@@ -2,7 +2,8 @@
 window.musicList = [
     { name: "cta va sau nay", src: "music/ctavasaunay.mp3", cover: "imgs/music-icon1.jpg" },
     { name: "Phep Mau", src: "music/phepmau.mp3", cover: "imgs/music-icon2.jpg" },
-    { name: "We dont talk anymore", src: "music/wedonttalkanymore(instrumental).mp3", cover: "imgs/music-icon3.jpg" }
+    { name: "We dont talk anymore", src: "music/wedonttalkanymore(instrumental).mp3", cover: "imgs/music-icon3.jpg" },
+    { name: "Trả Cho Anh Remix", src: "music/trachoanh.mp3", cover: "imgs/gojo-sukuna.jpg" }
 ];
 
 window.currentTrackIndex = Math.floor(Math.random() * window.musicList.length);
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         });
     }
+    window.loadAndPlay(window.currentTrackIndex);
 
     // --- LOGIC GENSHIN LOADER (NẾU LÀ PC) ---
     if (isMobile) {

@@ -1,416 +1,338 @@
+// ==========================================
+// PHẦN 1: DISCORD STATUS & PROFILE (LANYARD)
+// ==========================================
+
 const DISCORD_ID = "1057942252535693322";
+const STATUS_MAP = {
+    online: "Online",
+    idle: "Idle",
+    dnd: "Do Not Disturb",
+    offline: "Offline"
+};
 
 async function updateDiscordStatus() {
     try {
-        const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-        const data = await response.json();
-        if (!data.success) return;
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+        const json = await res.json();
+        if (!json.success) return;
 
-        const user = data.data;
+        const user = json.data;
+        const discordUser = user.discord_user;
 
-        // --- BIẾN DÙNG CHUNG ---
-        const avatarUrl = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.discord_user.avatar}.png?size=256`;
-        const displayName = user.discord_user.global_name || user.discord_user.username;
-        const statusMap = {'online': 'Online', 'idle': 'Idle', 'dnd': 'Do Not Disturb', 'offline': 'Offline'};
+        const avatarUrl = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${discordUser.avatar}.png?size=256`;
+        const displayName = discordUser.global_name || discordUser.username;
+        const deco = discordUser.avatar_decoration_data;
 
-        // --- 1. CẬP NHẬT CARD CŨ (HEADER) ---
-        const oldAvt = document.getElementById('discord-avatar');
-        if (oldAvt) oldAvt.src = avatarUrl;
-        
-        const oldName = document.getElementById('discord-name');
-        if (oldName) oldName.innerText = displayName;
-
-        const oldDeco = document.getElementById('discord-decoration');
-        if (oldDeco) {
-            if (user.discord_user.avatar_decoration_data) {
-                oldDeco.src = `https://cdn.discordapp.com/avatar-decoration-presets/${user.discord_user.avatar_decoration_data.asset}`;
-                oldDeco.style.display = "block";
-            } else {
-                oldDeco.style.display = "none";
-            }
-        }
-
-        // Chấm trạng thái (Online/Offline)
-        const statusDot = document.getElementById('discord-status-dot');
-        if (statusDot) statusDot.className = `status-dot ${user.discord_status}`;
-
-        // Ghi chú trạng thái (Tự động thay đổi theo Discord)
-        const customStatus = user.activities.find(a => a.type === 4);
-        const statusDisplay = document.getElementById('discord-status-text');
-        if (statusDisplay) {
-            if (customStatus) {
-                const emojiHtml = customStatus.emoji ? `<img src="https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.png" style="width:20px; vertical-align:middle;"> ` : "";
-                statusDisplay.innerHTML = `${emojiHtml}${customStatus.state || ""}`;
-            } else {
-                statusDisplay.innerText = statusMap[user.discord_status] || "Offline";
-            }
-        }
-
-        // --- 2. CẬP NHẬT CARD MỚI (PROFILE SECTION) ---
-        const profileAvt = document.getElementById('profile-discord-avatar');
-        if (profileAvt) profileAvt.src = avatarUrl;
-
-        const profileName = document.getElementById('profile-discord-name');
-        if (profileName) profileName.innerText = displayName;
-
-        const profileDeco = document.getElementById('profile-discord-deco');
-        if (profileDeco) {
-            if (user.discord_user.avatar_decoration_data) {
-                profileDeco.src = `https://cdn.discordapp.com/avatar-decoration-presets/${user.discord_user.avatar_decoration_data.asset}`;
-                profileDeco.style.display = "block";
-            } else {
-                profileDeco.style.display = "none";
-            }
-        }
-
-        // --- CẤU HÌNH NHẠC NỘI BỘ ---
-const musicList = [
-    { name: "Bài hát 1", artist: "Ca sĩ 1", src: "music/song1.mp3", img: "imgs/cover1.jpg" },
-    { name: "Bài hát 2", artist: "Ca sĩ 2", src: "music/song2.mp3", img: "imgs/cover2.jpg" }
-];
-
-let musicIndex = 0;
-const mainAudio = document.getElementById("main-audio");
-const playPauseBtn = document.getElementById("play-pause-btn");
-const playImg = document.getElementById("play-img");
-const musicDisk = document.getElementById("music-disk");
-const progressBar = document.getElementById("music-progress");
-const progressArea = document.getElementById("progress-area");
-
-// Hàm tải nhạc
-function loadMusic(index) {
-    document.getElementById("song-name").innerText = musicList[index].name;
-    document.getElementById("artist-name").innerText = musicList[index].artist;
-    mainAudio.src = musicList[index].src;
-    // Nếu bạn có ảnh bìa riêng cho mỗi bài:
-    // musicDisk.src = musicList[index].img; 
-}
-
-// Xử lý Play/Pause
-playPauseBtn.addEventListener("click", () => {
-    const isMusicPaused = playPauseBtn.classList.contains("paused");
-    isMusicPaused ? pauseMusic() : playMusic();
-});
-
-function playMusic() {
-    playPauseBtn.classList.add("paused");
-    playImg.src = "imgs/pause.png"; // Đổi sang icon pause khi đang chạy
-    musicDisk.style.animationPlayState = "running";
-    mainAudio.play();
-}
-
-function pauseMusic() {
-    playPauseBtn.classList.remove("paused");
-    playImg.src = "imgs/play.png";
-    musicDisk.style.animationPlayState = "paused";
-    mainAudio.pause();
-}
-
-// Cập nhật thanh tiến trình và thời gian
-mainAudio.addEventListener("timeupdate", (e) => {
-    const currentTime = e.target.currentTime;
-    const duration = e.target.duration;
-    let progressWidth = (currentTime / duration) * 100;
-    progressBar.style.width = `${progressWidth}%`;
-
-    // Cập nhật thời gian hiển thị
-    let currentMin = Math.floor(currentTime / 60);
-    let currentSec = Math.floor(currentTime % 60);
-    if(currentSec < 10) currentSec = `0${currentSec}`;
-    document.getElementById("current-time").innerText = `${currentMin}:${currentSec}`;
-
-    mainAudio.onloadeddata = () => {
-        let totalMin = Math.floor(mainAudio.duration / 60);
-        let totalSec = Math.floor(mainAudio.duration % 60);
-        if(totalSec < 10) totalSec = `0${totalSec}`;
-        document.getElementById("total-time").innerText = `${totalMin}:${totalSec}`;
-    };
-});
-
-// Tua nhạc khi click vào thanh progress
-progressArea.addEventListener("click", (e) => {
-    let progressWidthVal = progressArea.clientWidth;
-    let clickedOffSetX = e.offsetX;
-    let songDuration = mainAudio.duration;
-    mainAudio.currentTime = (clickedOffSetX / progressWidthVal) * songDuration;
-    playMusic();
-});
-
-// Next/Prev
-document.getElementById("next-btn").addEventListener("click", () => {
-    musicIndex = (musicIndex + 1) % musicList.length;
-    loadMusic(musicIndex);
-    playMusic();
-});
-
-document.getElementById("prev-btn").addEventListener("click", () => {
-    musicIndex = (musicIndex - 1 + musicList.length) % musicList.length;
-    loadMusic(musicIndex);
-    playMusic();
-});
-
-// Khởi tạo bài đầu tiên
-window.addEventListener("load", () => {
-    loadMusic(musicIndex);
-});
-
-    } catch (error) {
-        console.error("Lanyard Error:", error);
+        updateHeaderCard(user, avatarUrl, displayName, deco);
+        updateProfileCard(avatarUrl, displayName, deco);
+        updateCustomStatus(user);
+        updateLanyardStatus(user);
+    } catch (err) {
+        console.error("Lanyard Error:", err);
     }
 }
+function updateLanyardStatus(user) {
+    const el = document.getElementById("lanyard-status-text");
+    if (!el) return;
 
-// Hàm hỗ trợ mở rộng các ô About (Giữ nguyên logic cũ của bạn)
-function expandCard(card) {
-    const isExpanded = card.classList.contains('expanded');
-    document.querySelectorAll('.about-card').forEach(c => c.classList.remove('expanded'));
-    if (!isExpanded) card.classList.add('expanded');
+    const statusText = STATUS_MAP[user.discord_status] || "Offline";
+    el.innerText = statusText;
+
+    el.classList.remove("online", "idle", "dnd", "offline");
+    el.classList.add(user.discord_status);
 }
 
-// Khởi chạy khi trang web tải xong
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. Cập nhật Discord ngay lập tức và lặp lại mỗi 5 giây
-    updateDiscordStatus();
-    setInterval(updateDiscordStatus, 5000);
+/* ---------- HEADER CARD ---------- */
+function updateHeaderCard(user, avatarUrl, name, deco) {
+    setSrc("discord-avatar", avatarUrl);
+    setText("discord-name", name);
 
-    // 2. Tăng số lượt xem (View Count)
-    let views = localStorage.getItem('view_count') || 1540;
-    views = parseInt(views) + 1;
-    localStorage.setItem('view_count', views);
-    const viewEl = document.getElementById('view-count');
-    if (viewEl) viewEl.innerText = views.toLocaleString();
+    const decoEl = document.getElementById("discord-decoration");
+    if (decoEl) toggleDecoration(decoEl, deco);
 
-    // 3. Hiệu ứng gõ chữ cho Quote
-    const quoteElement = document.querySelector(".quote-text");
-    if (quoteElement) {
-        const textToType = quoteElement.textContent.trim();
-        quoteElement.textContent = "";
-        const observer = new IntersectionObserver((entries) => {
+    const statusDot = document.getElementById("discord-status-dot");
+    if (statusDot) statusDot.className = `status-dot ${user.discord_status}`;
+}
+
+/* ---------- PROFILE CARD ---------- */
+function updateProfileCard(avatarUrl, name, deco) {
+    setSrc("profile-discord-avatar", avatarUrl);
+    setText("profile-discord-name", name);
+
+    const decoEl = document.getElementById("profile-discord-deco");
+    if (decoEl) toggleDecoration(decoEl, deco);
+}
+
+/* ---------- CUSTOM STATUS ---------- */
+function updateCustomStatus(user) {
+    const el = document.getElementById("discord-status-text");
+    if (!el) return;
+
+    const custom = user.activities.find(a => a.type === 4);
+    if (!custom) {
+        el.innerText = STATUS_MAP[user.discord_status] || "Offline";
+        return;
+    }
+
+    const emoji = custom.emoji?.id
+        ? `<img src="https://cdn.discordapp.com/emojis/${custom.emoji.id}.png" style="width:20px;vertical-align:middle;"> `
+        : "";
+
+    el.innerHTML = `${emoji}${custom.state || ""}`;
+}
+
+/* ---------- HELPERS ---------- */
+function toggleDecoration(el, deco) {
+    if (!deco) {
+        el.style.display = "none";
+        return;
+    }
+    el.src = `https://cdn.discordapp.com/avatar-decoration-presets/${deco.asset}`;
+    el.style.display = "block";
+}
+
+function setSrc(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.src = value;
+}
+
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.innerText = value;
+}
+
+// ==========================================
+// PHẦN 2: QUOTE TYPING · SCROLL REVEAL · ABOUT
+// ==========================================
+
+/* ---------- ABOUT CARD EXPAND ---------- */
+function expandCard(card) {
+    const isExpanded = card.classList.contains("expanded");
+
+    document
+        .querySelectorAll(".about-card")
+        .forEach(c => c.classList.remove("expanded"));
+
+    if (!isExpanded) card.classList.add("expanded");
+}
+
+/* ---------- SCROLL REVEAL ---------- */
+const revealObserver = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    },
+    { threshold: 0.2 }
+);
+
+document
+    .querySelectorAll(".scroll-reveal")
+    .forEach(el => revealObserver.observe(el));
+
+/* ---------- QUOTE TYPEWRITER ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+    const quoteEl = document.querySelector(".quote-text");
+    if (!quoteEl) return;
+
+    const text = quoteEl.textContent.trim();
+    quoteEl.textContent = "";
+
+    const observer = new IntersectionObserver(
+        entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    let i = 0;
-                    quoteElement.classList.add("typing");
-                    function type() {
-                        if (i < textToType.length) {
-                            quoteElement.textContent += textToType.charAt(i);
-                            i++;
-                            setTimeout(type, 80);
-                        }
-                    }
-                    type();
+                    startTypewriter(quoteEl, text);
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 });
-        observer.observe(quoteElement);
-    }
+        },
+        { threshold: 0.2 }
+    );
+
+    observer.observe(quoteEl);
 });
-// Hàm cập nhật đồng hồ
-function updateMidClock() {
-    const now = new Date();
-    document.getElementById('digital-clock').innerText = now.toLocaleTimeString('vi-VN', { hour12: false });
-    document.getElementById('current-date').innerText = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+function startTypewriter(el, text) {
+    let i = 0;
+    el.classList.add("typing");
+
+    (function type() {
+        if (i < text.length) {
+            el.textContent += text.charAt(i++);
+            setTimeout(type, 40);
+        } else {
+            setTimeout(() => el.classList.remove("typing"), 1500);
+        }
+    })();
 }
 
-// Khởi chạy khi tải trang
-document.addEventListener('DOMContentLoaded', () => {
+// ==========================================
+// PHẦN 3: CLOCK · VIEW COUNT · STATUS LOCAL
+// ==========================================
+
+/* ---------- MID CLOCK ---------- */
+function updateMidClock() {
+    const now = new Date();
+
+    setText(
+        "digital-clock",
+        now.toLocaleTimeString("vi-VN", { hour12: false })
+    );
+
+    setText(
+        "current-date",
+        now.toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "numeric"
+        })
+    );
+}
+
+/* ---------- VIEW COUNT ---------- */
+function updateViewCount() {
+    let views = parseInt(localStorage.getItem("view_count") || "1540", 10) + 1;
+    localStorage.setItem("view_count", views);
+
+    const el = document.getElementById("view-count");
+    if (el) el.innerText = views.toLocaleString();
+}
+
+/* ---------- EDITABLE STATUS ---------- */
+function initEditableStatus() {
+    const statusEl = document.getElementById("editable-status");
+    if (!statusEl) return;
+
+    const saved = localStorage.getItem("userStatus");
+    if (saved) statusEl.innerHTML = saved;
+
+    statusEl.addEventListener("input", () =>
+        localStorage.setItem("userStatus", statusEl.innerHTML)
+    );
+}
+
+/* ---------- GLOBAL INIT ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+    // Discord
     updateDiscordStatus();
     setInterval(updateDiscordStatus, 30000);
+
+    // Clock
     updateMidClock();
     setInterval(updateMidClock, 1000);
 
-    // Xử lý Status có thể sửa (LocalStorage)
-    const statusArea = document.getElementById('editable-status');
-    const saved = localStorage.getItem('userStatus');
-    if (saved) statusArea.innerHTML = saved;
-    statusArea.addEventListener('input', () => localStorage.setItem('userStatus', statusArea.innerHTML));
+    // View count + Status
+    updateViewCount();
+    initEditableStatus();
 });
 
-function expandCard(card) {
-    const isExpanded = card.classList.contains('expanded');
-    
-    // Đóng tất cả các ô khác
-    document.querySelectorAll('.about-card').forEach(c => {
-        c.classList.remove('expanded');
-    });
-
-    if (!isExpanded) {
-        card.classList.add('expanded');
-    }
-}
-
-// Giữ nguyên Observer cũ của bạn bên dưới
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, { threshold: 0.2 });
-
-document.querySelectorAll('.scroll-reveal').forEach(el => revealObserver.observe(el));
-
-function expandCard(card) {
-    const isExpanded = card.classList.contains('expanded');
-    
-    // Đóng tất cả các ô khác để chữ của chúng biến mất
-    document.querySelectorAll('.about-card').forEach(c => {
-        c.classList.remove('expanded');
-    });
-
-    // Nếu chưa mở thì mở, nếu mở rồi thì đóng lại
-    if (!isExpanded) {
-        card.classList.add('expanded');
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    const quoteElement = document.querySelector(".quote-text");
-    if (!quoteElement) return;
-
-    // Lấy nội dung chữ có sẵn trong HTML làm mẫu để gõ
-    const textToType = quoteElement.textContent.trim(); 
-    quoteElement.textContent = ""; // Xóa chữ ban đầu
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            // Khi cuộn tới phần Quote (vùng nhìn thấy > 20%)
-            if (entry.isIntersecting) {
-                startTypewriter(quoteElement, textToType);
-                observer.unobserve(entry.target); // Chỉ chạy hiệu ứng 1 lần
-            }
-        });
-    }, { threshold: 0.2 });
-
-    observer.observe(quoteElement);
-
-    function startTypewriter(element, text) {
-        let i = 0;
-        element.classList.add("typing"); // Hiện con trỏ nhấp nháy
-
-        function type() {
-            if (i < text.length) {
-                element.textContent += text.charAt(i);
-                i++;
-                setTimeout(type, 40); // Tốc độ gõ: 80ms/chữ
-            } else {
-                // Gõ xong thì bỏ con trỏ sau 1.5 giây
-                setTimeout(() => {
-                    element.classList.remove("typing");
-                }, 1500);
-            }
-        }
-        type();
-    }
-});
+// ==========================================
+// PHẦN 4: MUSIC PLAYER CHÍNH
+// ==========================================
 
 const mainAudio = document.getElementById("main-audio");
 const songName = document.getElementById("song-name");
 const musicDisk = document.getElementById("music-disk");
 const mainIcon = document.getElementById("mainIcon");
+
 const progressArea = document.getElementById("progress-area");
+const progressBar = document.getElementById("music-progress");
+const currentTimeEl = document.getElementById("current-time");
+const totalTimeEl = document.getElementById("total-time");
 
-
-// Hàm định dạng thời gian
+/* ---------- TIME FORMAT ---------- */
 function formatTime(seconds) {
     if (isNaN(seconds)) return "0:00";
-    const min = Math.floor(seconds / 60);
-    const sec = Math.floor(seconds % 60);
-    return `${min}:${sec < 10 ? '0' + sec : sec}`;
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s < 10 ? "0" + s : s}`;
 }
 
-// Cập nhật Icon chuẩn: Phát nhạc thì hiện Pause, Dừng nhạc thì hiện Play
+/* ---------- ICON STATE ---------- */
 function updateIconState() {
-    mainIcon.textContent = mainAudio.paused 
-        ? "play_circle_filled" 
+    if (!mainIcon) return;
+    mainIcon.textContent = mainAudio.paused
+        ? "play_circle_filled"
         : "pause_circle_filled";
 }
 
+mainAudio.addEventListener("play", updateIconState);
+mainAudio.addEventListener("pause", updateIconState);
 
-mainAudio.addEventListener('play', updateIconState);
-mainAudio.addEventListener('pause', updateIconState);
-
-
-// 2. LỆNH TỰ ĐỘNG SANG BÀI (Dứt điểm yêu cầu của bạn)
-mainAudio.onended = () => {
-    // Chuyển sang bài tiếp theo
-    window.currentTrackIndex = (window.currentTrackIndex + 1) % window.musicList.length;
-    
-    // Nạp bài mới
-    window.loadAndPlay(window.currentTrackIndex); 
-    
-    // Quan trọng: Sau khi loadAndPlay, icon sẽ tự đổi vì trong loadAndPlay đã có updateIconState
-};
-
-// Hàm nạp nhạc (Quan trọng: Sửa lỗi 0:00)
-window.loadAndPlay = function(index) {
-    const track = window.musicList[index];
+/* ---------- LOAD & PLAY (GLOBAL) ---------- */
+window.loadAndPlay = function (index) {
+    const track = window.musicList?.[index];
     if (!track) return;
 
     window.currentTrackIndex = index;
+
     mainAudio.src = track.src;
     songName.innerText = track.name;
     musicDisk.src = track.cover;
 
-    mainAudio.load(); // Buộc trình duyệt nạp lại source mới
+    mainAudio.load();
 
-    // Lắng nghe khi dữ liệu đã sẵn sàng để lấy thời lượng
-    mainAudio.onloadeddata = () => {
-        document.getElementById("total-time").innerText = formatTime(mainAudio.duration);
+    mainAudio.onloadedmetadata = () => {
+        totalTimeEl.innerText = formatTime(mainAudio.duration);
     };
 
-    // Chỉ phát nếu được gọi từ lệnh click (tránh lỗi bảo mật trình duyệt)
-    mainAudio.play().then(() => {
-        updateIconState();
-    }).catch(e => console.log("Yêu cầu tương tác người dùng"));
+    mainAudio
+        .play()
+        .then(updateIconState)
+        .catch(() => console.log("Yêu cầu tương tác người dùng"));
 };
 
-// Nút Play/Pause (Sửa lỗi lúc được lúc không)
-document.getElementById("play-pause-btn").onclick = (e) => {
+/* ---------- AUTO NEXT ---------- */
+mainAudio.onended = () => {
+    const next =
+        (window.currentTrackIndex + 1) % window.musicList.length;
+    window.loadAndPlay(next);
+};
+
+/* ---------- PLAY / PAUSE BUTTON ---------- */
+document.getElementById("play-pause-btn")?.addEventListener("click", e => {
     e.preventDefault();
-    if (mainAudio.paused) {
-        mainAudio.play();
-    } else {
-        mainAudio.pause();
-    }
-    // updateIconState() sẽ tự chạy nhờ listener ở mục 2
-};
-
-const current = document.getElementById("current");
-const duration = document.getElementById("duration");
-const progressBar = document.getElementById("music-progress");
-
-mainAudio.addEventListener("loadedmetadata", () => {
-    let m = Math.floor(mainAudio.duration/60);
-    let s = Math.floor(mainAudio.duration%60);
-    if(s<10) s="0"+s;
-    duration.textContent = `${m}:${s}`;
+    mainAudio.paused ? mainAudio.play() : mainAudio.pause();
 });
 
+/* ---------- NEXT / PREV ---------- */
+document.getElementById("next-btn")?.addEventListener("click", () => {
+    const next =
+        (window.currentTrackIndex + 1) % window.musicList.length;
+    window.loadAndPlay(next);
+});
+
+document.getElementById("prev-btn")?.addEventListener("click", () => {
+    const prev =
+        (window.currentTrackIndex - 1 + window.musicList.length) %
+        window.musicList.length;
+    window.loadAndPlay(prev);
+});
+
+/* ---------- PROGRESS UPDATE ---------- */
 mainAudio.addEventListener("timeupdate", () => {
-    let m = Math.floor(mainAudio.currentTime/60);
-    let s = Math.floor(mainAudio.currentTime%60);
-    if(s<10) s="0"+s;
-    current.textContent = `${m}:${s}`;
+    if (!mainAudio.duration) return;
 
+    currentTimeEl.innerText = formatTime(mainAudio.currentTime);
     progressBar.style.width =
-        (mainAudio.currentTime/mainAudio.duration)*100 + "%";
+        (mainAudio.currentTime / mainAudio.duration) * 100 + "%";
 });
 
-progressArea.addEventListener("click",(e)=>{
-    const w = progressArea.clientWidth;
-    mainAudio.currentTime = (e.offsetX / w) * mainAudio.duration;
+/* ---------- SEEK ---------- */
+progressArea?.addEventListener("click", e => {
+    const width = progressArea.clientWidth;
+    mainAudio.currentTime =
+        (e.offsetX / width) * mainAudio.duration;
 });
 
-// Chuyển bài
-document.getElementById("next-btn").onclick = () => {
-    let index = (window.currentTrackIndex + 1) % window.musicList.length;
-    window.loadAndPlay(index);
-};
-document.getElementById("prev-btn").onclick = () => {
-    let index = (window.currentTrackIndex - 1 + window.musicList.length) % window.musicList.length;
-    window.loadAndPlay(index);
-};
+// ==========================================
+// PHẦN 5: FLOATING PLAYER · VOLUME · INIT
+// ==========================================
 
+/* ---------- FLOATING PLAYER ELEMENTS ---------- */
 const floatingCover = document.getElementById("floating-cover");
 const largeCover = document.getElementById("popup-cover-large");
 const floatingTitle = document.getElementById("floating-title");
@@ -426,74 +348,103 @@ const miniProgressArea = document.getElementById("mini-progress-area");
 
 const volumeSlider = document.getElementById("volume-slider");
 
-/* Đồng bộ bài hiện tại */
-function syncMiniPlayer(){
-    const track = window.musicList[window.currentTrackIndex];
-    if(!track) return;
+/* ---------- SYNC MINI PLAYER ---------- */
+function syncMiniPlayer() {
+    const track = window.musicList?.[window.currentTrackIndex];
+    if (!track) return;
 
     floatingCover.src = track.cover;
     largeCover.src = track.cover;
     floatingTitle.textContent = track.name;
 }
-syncMiniPlayer();
 
-/* Khi player chính đổi bài */
 mainAudio.addEventListener("loadeddata", syncMiniPlayer);
 
-/* Play / Pause */
-popupPlay.onclick = ()=>{
+/* ---------- MINI PLAY / PAUSE ---------- */
+popupPlay?.addEventListener("click", () => {
     mainAudio.paused ? mainAudio.play() : mainAudio.pause();
-};
-
-mainAudio.addEventListener("play",()=>popupPlay.textContent="pause_circle_filled");
-mainAudio.addEventListener("pause",()=>popupPlay.textContent="play_circle_filled");
-
-/* Next / Prev */
-popupNext.onclick = ()=>{
-    let i = (window.currentTrackIndex+1)%window.musicList.length;
-    window.loadAndPlay(i);
-};
-
-popupPrev.onclick = ()=>{
-    let i = (window.currentTrackIndex-1+window.musicList.length)%window.musicList.length;
-    window.loadAndPlay(i);
-};
-
-/* Progress + time */
-mainAudio.addEventListener("timeupdate",()=>{
-    if(!mainAudio.duration) return;
-
-    let cur = mainAudio.currentTime;
-    let dur = mainAudio.duration;
-
-    popupProgress.style.width = (cur/dur)*100 + "%";
-    miniCurrent.textContent = formatTime(cur);
 });
 
-mainAudio.addEventListener("loadedmetadata",()=>{
+mainAudio.addEventListener("play", () => {
+    if (popupPlay) popupPlay.textContent = "pause_circle_filled";
+});
+mainAudio.addEventListener("pause", () => {
+    if (popupPlay) popupPlay.textContent = "play_circle_filled";
+});
+
+/* ---------- MINI NEXT / PREV ---------- */
+popupNext?.addEventListener("click", () => {
+    const i = (window.currentTrackIndex + 1) % window.musicList.length;
+    window.loadAndPlay(i);
+});
+
+popupPrev?.addEventListener("click", () => {
+    const i =
+        (window.currentTrackIndex - 1 + window.musicList.length) %
+        window.musicList.length;
+    window.loadAndPlay(i);
+});
+
+/* ---------- MINI PROGRESS ---------- */
+mainAudio.addEventListener("timeupdate", () => {
+    if (!mainAudio.duration) return;
+
+    popupProgress.style.width =
+        (mainAudio.currentTime / mainAudio.duration) * 100 + "%";
+    miniCurrent.textContent = formatTime(mainAudio.currentTime);
+});
+
+mainAudio.addEventListener("loadedmetadata", () => {
     miniDuration.textContent = formatTime(mainAudio.duration);
 });
 
-function formatTime(t){
-    let m = Math.floor(t/60);
-    let s = Math.floor(t%60);
-    if(s<10) s="0"+s;
-    return `${m}:${s}`;
-}
-
-/* Click tua */
-miniProgressArea.addEventListener("click",(e)=>{
+/* ---------- MINI SEEK ---------- */
+miniProgressArea?.addEventListener("click", e => {
     const rect = miniProgressArea.getBoundingClientRect();
-    const percent = (e.clientX - rect.left)/rect.width;
+    const percent = (e.clientX - rect.left) / rect.width;
     mainAudio.currentTime = percent * mainAudio.duration;
 });
 
-/* Volume */
-volumeSlider.value = mainAudio.volume;
-volumeSlider.oninput = ()=> mainAudio.volume = volumeSlider.value;
+/* ---------- VOLUME ---------- */
+if (volumeSlider) {
+    mainAudio.volume = 0.5;
+    volumeSlider.value = 0.5;
+
+    volumeSlider.addEventListener("input", e => {
+        mainAudio.volume = e.target.value;
+
+        const icon = document.querySelector(".volume-area i");
+        if (!icon) return;
+
+        if (e.target.value == 0) icon.textContent = "volume_off";
+        else if (e.target.value < 0.5) icon.textContent = "volume_down";
+        else icon.textContent = "volume_up";
+    });
+}
+
+/* ---------- INIT FROM PRELOADER ---------- */
 document.addEventListener("DOMContentLoaded", () => {
-    mainAudio.volume = 0.5;          // âm lượng mặc định 50%
-    volumeSlider.value = 0.5;        // đồng bộ slider
+    if (!window.musicList?.length) return;
+
+    const index = window.currentTrackIndex || 0;
+    const track = window.musicList[index];
+
+    mainAudio.src = track.src;
+    songName.innerText = track.name;
+    musicDisk.src = track.cover;
+
+    syncMiniPlayer();
+    mainAudio.load();
 });
 
+/* ---------- PRELOADER ENTRY ---------- */
+window.startEverything = function () {
+    if (typeof initAudioVisualizer === "function") {
+        initAudioVisualizer();
+    }
 
+    mainAudio
+        .play()
+        .then(updateIconState)
+        .catch(() => console.log("Yêu cầu tương tác để phát nhạc"));
+};

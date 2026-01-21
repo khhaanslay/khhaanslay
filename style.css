@@ -1511,4 +1511,13 @@ body {
     cursor:pointer;
 }
 
+.glass-card,
+.glass-card-music {
+    transition: box-shadow 0.08s linear;
+}
+
+#lanyard-status-text.online { color: #3ba55d; }
+#lanyard-status-text.idle { color: #faa81a; }
+#lanyard-status-text.dnd { color: #ed4245; }
+#lanyard-status-text.offline { color: #747f8d; }
 
