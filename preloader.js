@@ -3,8 +3,8 @@ window.musicList = [
     { name: "cta va sau nay", src: "music/ctavasaunay.mp3", cover: "imgs/music-icon1.jpg" },
     { name: "Phep Mau", src: "music/phepmau.mp3", cover: "imgs/music-icon2.jpg" },
     { name: "We dont talk anymore", src: "music/wedonttalkanymore(instrumental).mp3", cover: "imgs/music-icon3.jpg" },
-    { name: "Trả Cho Anh Remix", src: "music/trachoanh.mp3", cover: "imgs/music-icon4.jpg" },
-    { name: "Chờ đợi đâu đáng sợ", src: "music/chodoidaudangso.mp3", cover: "imgs/music-icon5.jpg" }
+    { name: "Trả cho anh remix", src: "music/trachoanh.mp3", cover: "imgs/music-icon4.jpg" },
+    { name: "Chờ đợi có đáng sợ", src: "music/chodoicodangso.mp3", cover: "imgs/music-icon5.jpg" }
 ];
 
 window.currentTrackIndex = Math.floor(Math.random() * window.musicList.length);
