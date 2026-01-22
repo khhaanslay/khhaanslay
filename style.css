@@ -1344,14 +1344,14 @@ body {
     width:60px;
     height:60px;
     border-radius:50%;
-    background:rgb(0, 0, 0);
+    background:rgb(195, 47, 185);
     border:2px solid rgb(255, 255, 255);
     z-index:9999;
     transition:0.35s ease;
     cursor:pointer;
     overflow:hidden;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
 }
 
 /* ảnh nhỏ */
@@ -1377,9 +1377,9 @@ body {
     height:420px !important;
     border-radius:20px;
     padding:12px;
-    background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: rgb(55, 55, 55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.35);
 }
 
