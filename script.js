@@ -457,7 +457,7 @@ function updateCoupleTimer() {
 
     // 2. Tính số ngày đã yêu
     const diffTime = Math.abs(now - startDate);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))+1;
     
     // 3. Hiển thị lên màn hình
     const countElement = document.getElementById("count-number");
